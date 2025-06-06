@@ -44,7 +44,7 @@ export default function HomePage() {
                 <div className="w-5 h-5 relative">
                   <Image src="/images/bear-logo.png" alt="Bear Notes" width={20} height={20} className="rounded-sm" />
                 </div>
-                Professional Notes
+                Davis's Bear Notes
               </CardTitle>
               <CardDescription className="text-sm">
                 Organized collection of project notes, research, and technical documentation

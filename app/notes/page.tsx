@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Search, Calendar, Tag, Upload, Download, Eye, ChevronRight, Home } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Note {
   id: string
@@ -98,10 +98,10 @@ export default function NotesPage() {
             <Home className="h-4 w-4" />
           </Link>
           <ChevronRight className="h-4 w-4 text-slate-400" />
-          <div className="w-8 h-8 relative">
-            <Image src="/images/bear-logo.png" alt="Bear Notes" width={32} height={32} className="rounded-lg" />
+          <div className="w-6 h-6 relative">
+            <Image src="/images/bear-logo.png" alt="Bear Notes" width={24} height={24} className="rounded-sm" />
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Professional Notes</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Davis's Bear Notes</h1>
         </div>
         <p className="text-slate-600">Organized collection of project notes, research, and technical documentation</p>
       </div>
@@ -172,7 +172,7 @@ export default function NotesPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
             <Upload className="h-5 w-5" />
-            Add Professional Notes
+            Add Bear Notes
           </CardTitle>
           <CardDescription>Upload project notes and technical documentation (HTML/PDF format)</CardDescription>
         </CardHeader>
@@ -271,7 +271,7 @@ export default function NotesPage() {
             <p className="text-slate-600">
               {searchTerm || selectedTag || filterType !== "all"
                 ? "Try adjusting your search or filter criteria"
-                : "Add your professional notes to get started"}
+                : "Add your Bear notes to get started"}
             </p>
           </CardContent>
         </Card>

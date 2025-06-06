@@ -13,7 +13,7 @@ export function Navigation() {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/ai-files", label: "Robot Archive", icon: Brain },
-    { href: "/notes", label: "Bear Notes", icon: null, customIcon: true },
+    { href: "/notes", label: "Davis's Bear Notes", icon: null, customIcon: true },
     { href: "/portfolio", label: "Portfolio", icon: User },
   ]
 
