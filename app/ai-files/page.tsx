@@ -4,10 +4,9 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Upload, FileText, Download, Trash2, Eye, Search, Folder, FolderPlus, ChevronRight, Home } from "lucide-react"
+import { FileUploadDialog } from "@/components/file-upload-dialog"
 
 interface RobotFile {
   id: string
@@ -68,6 +67,16 @@ export default function RobotArchivePage() {
       size: "18 KB",
       directory: "Lifting",
     },
+    {
+      id: "5",
+      name: "New Orleans 2024",
+      description: "Trip planning for New Orleans",
+      content: "<!DOCTYPE html><html><head><title>New Orleans 2024</title>...</html>",
+      createdAt: "2024-01-10",
+      type: "html",
+      size: "32 KB",
+      directory: "Travel",
+    },
   ])
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -82,6 +91,7 @@ export default function RobotArchivePage() {
     type: "html" as const,
     directory: "",
   })
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
 
   // Get all unique directories
   const directories: Directory[] = Array.from(new Set(files.map((f) => f.directory)))
@@ -101,17 +111,20 @@ export default function RobotArchivePage() {
     return matchesSearch && matchesFilter && matchesDirectory
   })
 
-  const handleFileUpload = () => {
-    if (newFile.name && newFile.content) {
-      const file: RobotFile = {
-        id: Date.now().toString(),
-        ...newFile,
-        createdAt: new Date().toISOString().split("T")[0],
-        size: `${Math.round(newFile.content.length / 1024)} KB`,
-      }
-      setFiles([...files, file])
-      setNewFile({ name: "", description: "", content: "", type: "html", directory: "" })
+  const handleFileUpload = (fileData: {
+    name: string
+    description: string
+    content: string
+    type: "html" | "pdf" | "text"
+    directory: string
+  }) => {
+    const newFileEntry: RobotFile = {
+      id: Date.now().toString(),
+      ...fileData,
+      createdAt: new Date().toISOString().split("T")[0],
+      size: `${Math.round(fileData.content.length / 1024)} KB`,
     }
+    setFiles([...files, newFileEntry])
   }
 
   const createDirectory = () => {
@@ -277,79 +290,16 @@ export default function RobotArchivePage() {
         </CardContent>
       </Card>
 
-      {/* Upload Section */}
+      {/* Upload Button */}
       <Card className="mb-6 md:mb-8">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-            <Upload className="h-5 w-5" />
-            Add New File
-          </CardTitle>
-          <CardDescription>Upload or paste your AI-generated content (HTML/PDF)</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="fileName">File Name</Label>
-              <Input
-                id="fileName"
-                value={newFile.name}
-                onChange={(e) => setNewFile({ ...newFile, name: e.target.value })}
-                placeholder="Enter file name"
-              />
-            </div>
-            <div>
-              <Label htmlFor="fileType">File Type</Label>
-              <select
-                id="fileType"
-                value={newFile.type}
-                onChange={(e) => setNewFile({ ...newFile, type: e.target.value as "html" | "pdf" })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              >
-                <option value="html">HTML</option>
-                <option value="pdf">PDF</option>
-              </select>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="directory">Directory</Label>
-              <select
-                id="directory"
-                value={newFile.directory}
-                onChange={(e) => setNewFile({ ...newFile, directory: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              >
-                <option value="">Root Directory</option>
-                {directories.map((dir) => (
-                  <option key={dir.path} value={dir.path}>
-                    {dir.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                value={newFile.description}
-                onChange={(e) => setNewFile({ ...newFile, description: e.target.value })}
-                placeholder="Brief description"
-              />
-            </div>
-          </div>
-          <div>
-            <Label htmlFor="content">Content</Label>
-            <Textarea
-              id="content"
-              value={newFile.content}
-              onChange={(e) => setNewFile({ ...newFile, content: e.target.value })}
-              placeholder="Paste your AI-generated content here"
-              rows={6}
-            />
-          </div>
-          <Button onClick={handleFileUpload} className="w-full">
-            <Upload className="h-4 w-4 mr-2" />
-            Add File
+        <CardContent className="pt-6 pb-6">
+          <Button
+            onClick={() => setIsUploadDialogOpen(true)}
+            className="w-full flex items-center justify-center gap-2 py-6"
+            size="lg"
+          >
+            <Upload className="h-6 w-6 mr-2" />
+            <span className="text-lg">Upload Files to Robot Archive</span>
           </Button>
         </CardContent>
       </Card>
@@ -419,6 +369,15 @@ export default function RobotArchivePage() {
           </CardContent>
         </Card>
       )}
+
+      {/* File Upload Dialog */}
+      <FileUploadDialog
+        open={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onFileUpload={handleFileUpload}
+        directories={directories}
+        currentDirectory={currentDirectory}
+      />
     </div>
   )
 }
