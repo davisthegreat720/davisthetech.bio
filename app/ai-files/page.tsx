@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Upload, FileText, Download, Trash2, Eye, Search, Folder, FolderPlus, ChevronRight, Home } from "lucide-react"
 import { FileUploadDialog } from "@/components/file-upload-dialog"
+import Link from "next/link"
 
 interface RobotFile {
   id: string
@@ -30,47 +31,48 @@ export default function RobotArchivePage() {
     {
       id: "1",
       name: "Landing Page Template",
-      description: "AI-generated responsive landing page",
-      content: "<html><head><title>Sample</title></head><body><h1>AI Generated Page</h1></body></html>",
+      description: "Professional responsive landing page design",
+      content: "<html><head><title>Sample</title></head><body><h1>Professional Landing Page</h1></body></html>",
       createdAt: "2024-01-15",
       type: "html",
       size: "15 KB",
-      directory: "Lifting",
+      directory: "Web Development",
     },
     {
       id: "2",
       name: "Dashboard Design",
-      description: "Modern dashboard layout with charts",
+      description: "Modern dashboard layout with analytics",
       content: "PDF content placeholder",
       createdAt: "2024-01-14",
       type: "pdf",
       size: "245 KB",
-      directory: "Food",
+      directory: "UI/UX",
     },
     {
       id: "3",
-      name: "Recipe Generator",
-      description: "AI-generated recipe collection",
-      content: "<html><body><h1>Healthy Recipes</h1><p>Collection of AI-generated recipes...</p></body></html>",
+      name: "Technical Documentation",
+      description: "Comprehensive project documentation template",
+      content:
+        "<html><body><h1>Technical Documentation</h1><p>Project specifications and requirements...</p></body></html>",
       createdAt: "2024-01-13",
       type: "html",
       size: "22 KB",
-      directory: "Food",
+      directory: "Documentation",
     },
     {
       id: "4",
-      name: "Workout Tracker",
-      description: "Fitness tracking interface",
-      content: "<html><body><h1>Workout Tracker</h1><p>Track your fitness progress...</p></body></html>",
+      name: "System Architecture",
+      description: "Scalable system architecture design",
+      content: "<html><body><h1>System Architecture</h1><p>Microservices architecture overview...</p></body></html>",
       createdAt: "2024-01-12",
       type: "html",
       size: "18 KB",
-      directory: "Lifting",
+      directory: "Architecture",
     },
     {
       id: "5",
       name: "New Orleans 2024",
-      description: "Trip planning for New Orleans",
+      description: "Professional travel planning documentation",
       content: "<!DOCTYPE html><html><head><title>New Orleans 2024</title>...</html>",
       createdAt: "2024-01-10",
       type: "html",
@@ -84,13 +86,6 @@ export default function RobotArchivePage() {
   const [currentDirectory, setCurrentDirectory] = useState<string>("")
   const [showNewDirectoryForm, setShowNewDirectoryForm] = useState(false)
   const [newDirectoryName, setNewDirectoryName] = useState("")
-  const [newFile, setNewFile] = useState({
-    name: "",
-    description: "",
-    content: "",
-    type: "html" as const,
-    directory: "",
-  })
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
 
   // Get all unique directories
@@ -157,9 +152,16 @@ export default function RobotArchivePage() {
 
   return (
     <div className="container mx-auto px-4 py-6 md:py-8">
+      {/* Header with Home Link */}
       <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Robot Archive</h1>
-        <p className="text-slate-600">Organize your AI-generated content in custom directories</p>
+        <div className="flex items-center gap-2 mb-2">
+          <Link href="/" className="text-slate-500 hover:text-slate-700 transition-colors">
+            <Home className="h-4 w-4" />
+          </Link>
+          <ChevronRight className="h-4 w-4 text-slate-400" />
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Robot Archive</h1>
+        </div>
+        <p className="text-slate-600">Professional document archive and technical content collection</p>
       </div>
 
       {/* Breadcrumb Navigation */}
@@ -189,21 +191,21 @@ export default function RobotArchivePage() {
             <div className="flex justify-between items-center">
               <CardTitle className="flex items-center gap-2">
                 <Folder className="h-5 w-5" />
-                Directories
+                Document Categories
               </CardTitle>
               <Button size="sm" onClick={() => setShowNewDirectoryForm(!showNewDirectoryForm)}>
                 <FolderPlus className="h-4 w-4 mr-2" />
-                New Directory
+                New Category
               </Button>
             </div>
-            <CardDescription>Organize your files into custom directories</CardDescription>
+            <CardDescription>Organize documents by project type or category</CardDescription>
           </CardHeader>
           <CardContent>
             {showNewDirectoryForm && (
               <div className="mb-4 p-4 border rounded-lg bg-slate-50">
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Directory name (e.g., Lifting, Food, Projects)"
+                    placeholder="Category name (e.g., Web Development, Documentation, Architecture)"
                     value={newDirectoryName}
                     onChange={(e) => setNewDirectoryName(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && createDirectory()}
@@ -230,7 +232,7 @@ export default function RobotArchivePage() {
                       <Folder className="h-8 w-8 text-blue-600" />
                       <div>
                         <h3 className="font-semibold">{dir.name}</h3>
-                        <p className="text-sm text-slate-600">{dir.fileCount} files</p>
+                        <p className="text-sm text-slate-600">{dir.fileCount} documents</p>
                       </div>
                     </div>
                   </CardContent>
@@ -240,7 +242,7 @@ export default function RobotArchivePage() {
               {directories.length === 0 && (
                 <div className="col-span-full text-center py-8 text-slate-500">
                   <Folder className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                  <p>No directories yet. Create your first directory to organize files.</p>
+                  <p>No categories yet. Create your first category to organize documents.</p>
                 </div>
               )}
             </div>
@@ -256,7 +258,7 @@ export default function RobotArchivePage() {
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                 <Input
-                  placeholder="Search files..."
+                  placeholder="Search documents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -299,7 +301,7 @@ export default function RobotArchivePage() {
             size="lg"
           >
             <Upload className="h-6 w-6 mr-2" />
-            <span className="text-lg">Upload Files to Robot Archive</span>
+            <span className="text-lg">Add Documents to Archive</span>
           </Button>
         </CardContent>
       </Card>
@@ -336,7 +338,7 @@ export default function RobotArchivePage() {
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => deleteFile(file.id)}>
                     <Trash2 className="h-4 w-4" />
-                    <span className="hidden sm:inline ml-2">Delete</span>
+                    <span className="hidden sm:inline ml-2">Remove</span>
                   </Button>
                 </div>
               </div>
@@ -344,7 +346,7 @@ export default function RobotArchivePage() {
             <CardContent>
               <div className="text-sm text-slate-600 mb-3">
                 Size: {file.size} • Created: {file.createdAt}
-                {file.directory && ` • Directory: ${file.directory}`}
+                {file.directory && ` • Category: ${file.directory}`}
               </div>
               <div className="bg-slate-50 p-3 rounded text-sm font-mono max-h-24 md:max-h-32 overflow-y-auto">
                 {file.content.substring(0, 150)}...
@@ -358,13 +360,13 @@ export default function RobotArchivePage() {
         <Card>
           <CardContent className="text-center py-12">
             <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-slate-900 mb-2">No files found</h3>
+            <h3 className="text-lg font-medium text-slate-900 mb-2">No documents found</h3>
             <p className="text-slate-600">
               {searchTerm || filterType !== "all"
                 ? "Try adjusting your search or filter criteria"
                 : currentDirectory
-                  ? `No files in the "${currentDirectory}" directory yet`
-                  : "Upload your first AI-generated file to get started"}
+                  ? `No documents in the "${currentDirectory}" category yet`
+                  : "Add your first document to get started"}
             </p>
           </CardContent>
         </Card>
