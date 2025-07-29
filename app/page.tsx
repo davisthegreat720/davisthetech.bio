@@ -1,38 +1,71 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, Linkedin, ExternalLink, FileText } from "lucide-react"
-import { Header } from "@/components/header"
+import { Mail, Linkedin, Github, ExternalLink } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import Image from "next/image"
 
-export default function PortfolioPage() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 font-mono">
-      <Header />
       <Navigation />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-4 sm:py-8">
-        {/* Resume Embed */}
-        <Card className="w-full">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 font-mono text-lg sm:text-xl">
-              <FileText className="h-5 w-5" />
-              Professional Resume
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-2 sm:p-4">
-            <div className="w-full bg-white rounded-lg overflow-hidden shadow-inner">
-              <iframe
-                src="https://flowcv.com/resume/q9of1o321lid"
-                className="w-full h-[600px] sm:h-[700px] md:h-[800px] lg:h-[900px] border-none"
-                title="Danielle Davis Resume"
-                loading="lazy"
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-200px)]">
+          {/* Left Side - Blue Section */}
+          <div className="border-2 border-blue-600 text-black flex items-center justify-center p-8 lg:p-16 rounded-l-lg">
+            <div className="text-center lg:text-left max-w-md">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 font-mono">Danielle Davis</h1>
+              <h2 className="text-lg sm:text-xl lg:text-2xl mb-8 font-mono text-black">IT Leader | Tech Enthusiast     </h2>
+
+              {/* Divider */}
+              <div className="w-16 h-0.5 bg-black mb-8 mx-auto lg:mx-0"></div>
+
+              {/* Social Icons */}
+              <div className="flex justify-center lg:justify-start gap-6 mb-8">
+                <a
+                  href="https://www.linkedin.com/in/davisthetech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600 transition-colors"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin className="h-8 w-8" />
+                </a>
+                <a
+                  href="https://github.com/davisthegreat720"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600 transition-colors"
+                  aria-label="GitHub Profile"
+                >
+                  <Github className="h-8 w-8" />
+                </a>
+                <a
+                  href="mailto:davis072087@gmail.com"
+                  className="text-black hover:text-gray-600 transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="h-8 w-8" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Headshot Section */}
+          <div className="bg-white flex items-center justify-center p-8 lg:p-16 rounded-r-lg">
+            <div className="w-full max-w-md aspect-square relative rounded-lg shadow-2xl overflow-hidden">
+              <Image
+                src="/images/headshot.jpg"
+                alt="Danielle Davis - Professional headshot"
+                fill
+                className="object-cover"
+                priority
               />
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
 
       {/* Footer */}
