@@ -20,7 +20,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { FileUploadDialog, PasswordProtection } from "@/components/dynamic-imports"
+import { FileUploadDialog } from "@/components/file-upload-dialog"
+import { PasswordProtection } from "@/components/password-protection"
 
 interface Note {
   id: string
@@ -478,26 +479,22 @@ export default function NotesPage() {
       )}
 
       {/* Password Protection Dialog */}
-      {isPasswordDialogOpen && (
-        <PasswordProtection
-          open={isPasswordDialogOpen}
-          onOpenChange={setIsPasswordDialogOpen}
-          onSuccess={handlePasswordSuccess}
-          title="Bear Notes Upload Access"
-          description="Enter the upload password to add notes to Davis's Bear Notes."
-        />
-      )}
+      <PasswordProtection
+        open={isPasswordDialogOpen}
+        onOpenChange={setIsPasswordDialogOpen}
+        onSuccess={handlePasswordSuccess}
+        title="Bear Notes Upload Access"
+        description="Enter the upload password to add notes to Davis's Bear Notes."
+      />
 
       {/* File Upload Dialog */}
-      {isUploadDialogOpen && (
-        <FileUploadDialog
-          open={isUploadDialogOpen}
-          onOpenChange={setIsUploadDialogOpen}
-          onFileUpload={handleFileUpload}
-          directories={directories}
-          currentDirectory={currentDirectory}
-        />
-      )}
+      <FileUploadDialog
+        open={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onFileUpload={handleFileUpload}
+        directories={directories}
+        currentDirectory={currentDirectory}
+      />
     </div>
   )
 }

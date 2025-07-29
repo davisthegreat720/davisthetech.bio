@@ -19,7 +19,8 @@ import {
   Lock,
 } from "lucide-react"
 import Link from "next/link"
-import { FileUploadDialog, PasswordProtection } from "@/components/dynamic-imports"
+import { FileUploadDialog } from "@/components/file-upload-dialog"
+import { PasswordProtection } from "@/components/password-protection"
 
 interface RobotFile {
   id: string
@@ -416,26 +417,22 @@ export default function RobotArchivePage() {
       )}
 
       {/* Password Protection Dialog */}
-      {isPasswordDialogOpen && (
-        <PasswordProtection
-          open={isPasswordDialogOpen}
-          onOpenChange={setIsPasswordDialogOpen}
-          onSuccess={handlePasswordSuccess}
-          title="Robot Archive Upload Access"
-          description="Enter the upload password to add documents to the Robot Archive."
-        />
-      )}
+      <PasswordProtection
+        open={isPasswordDialogOpen}
+        onOpenChange={setIsPasswordDialogOpen}
+        onSuccess={handlePasswordSuccess}
+        title="Robot Archive Upload Access"
+        description="Enter the upload password to add documents to the Robot Archive."
+      />
 
       {/* File Upload Dialog */}
-      {isUploadDialogOpen && (
-        <FileUploadDialog
-          open={isUploadDialogOpen}
-          onOpenChange={setIsUploadDialogOpen}
-          onFileUpload={handleFileUpload}
-          directories={directories}
-          currentDirectory={currentDirectory}
-        />
-      )}
+      <FileUploadDialog
+        open={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onFileUpload={handleFileUpload}
+        directories={directories}
+        currentDirectory={currentDirectory}
+      />
     </div>
   )
 }
