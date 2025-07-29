@@ -7,6 +7,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    domains: ['api.qrserver.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.qrserver.com',
+        port: '',
+        pathname: '/v1/create-qr-code/**',
+      },
+    ],
     unoptimized: true,
   },
 }
