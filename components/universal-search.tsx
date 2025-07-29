@@ -65,7 +65,7 @@ export function UniversalSearch() {
       <Button
         variant="outline"
         size="sm"
-        className="flex items-center gap-2 text-slate-600"
+        className="flex items-center gap-2 text-slate-600 bg-transparent"
         onClick={() => setIsOpen(true)}
       >
         <Search className="h-4 w-4" />
