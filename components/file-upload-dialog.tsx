@@ -106,8 +106,8 @@ export function FileUploadDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md md:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Upload File to Robot Archive</DialogTitle>
-          <DialogDescription>Upload HTML, PDF, or text files to your Robot Archive collection</DialogDescription>
+          <DialogTitle>Upload File</DialogTitle>
+          <DialogDescription>Upload HTML, PDF, or text files to your collection</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -225,3 +225,5 @@ export function FileUploadDialog({
     </Dialog>
   )
 }
+
+export default FileUploadDialog

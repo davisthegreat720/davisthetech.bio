@@ -5,9 +5,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Search, Calendar, Tag, Upload, Download, Eye, ChevronRight, Home } from "lucide-react"
+import {
+  Search,
+  Calendar,
+  Tag,
+  Upload,
+  Download,
+  Eye,
+  ChevronRight,
+  Home,
+  Folder,
+  FolderPlus,
+  Lock,
+} from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { FileUploadDialog, PasswordProtection } from "@/components/dynamic-imports"
 
 interface Note {
   id: string
@@ -16,9 +29,15 @@ interface Note {
   tags: string[]
   createdAt: string
   modifiedAt: string
-  type: "html" | "pdf"
+  type: "html" | "pdf" | "text"
   size: string
   directory: string
+}
+
+interface Directory {
+  name: string
+  path: string
+  fileCount: number
 }
 
 export default function NotesPage() {
@@ -26,8 +45,13 @@ export default function NotesPage() {
   const [selectedTag, setSelectedTag] = useState("")
   const [filterType, setFilterType] = useState<"all" | "html" | "pdf">("all")
   const [currentDirectory, setCurrentDirectory] = useState<string>("")
+  const [showNewDirectoryForm, setShowNewDirectoryForm] = useState(false)
+  const [newDirectoryName, setNewDirectoryName] = useState("")
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const [notes] = useState<Note[]>([
+  const [notes, setNotes] = useState<Note[]>([
     {
       id: "1",
       title: "Project Planning Framework",
@@ -63,7 +87,38 @@ export default function NotesPage() {
       size: "156 KB",
       directory: "Meetings",
     },
+    {
+      id: "4",
+      title: "Daily Standup Notes",
+      content: "<h2>Daily Standup - Jan 20</h2><p>Sprint progress and blockers...</p>",
+      tags: ["meetings", "standup", "team"],
+      createdAt: "2024-01-20",
+      modifiedAt: "2024-01-20",
+      type: "html",
+      size: "5 KB",
+      directory: "Meetings",
+    },
+    {
+      id: "5",
+      title: "Architecture Design",
+      content: "<h2>System Architecture</h2><p>Microservices design patterns...</p>",
+      tags: ["architecture", "design", "systems"],
+      createdAt: "2024-01-18",
+      modifiedAt: "2024-01-19",
+      type: "html",
+      size: "15 KB",
+      directory: "Architecture",
+    },
   ])
+
+  // Get all unique directories
+  const directories: Directory[] = Array.from(new Set(notes.map((n) => n.directory)))
+    .filter((dir) => dir !== "")
+    .map((dir) => ({
+      name: dir,
+      path: dir,
+      fileCount: notes.filter((n) => n.directory === dir).length,
+    }))
 
   const allTags = Array.from(new Set(notes.flatMap((note) => note.tags)))
 
@@ -77,9 +132,57 @@ export default function NotesPage() {
     return matchesSearch && matchesTag && matchesType && matchesDirectory
   })
 
+  const handleUploadClick = () => {
+    if (isAuthenticated) {
+      setIsUploadDialogOpen(true)
+    } else {
+      setIsPasswordDialogOpen(true)
+    }
+  }
+
+  const handlePasswordSuccess = () => {
+    setIsAuthenticated(true)
+    setIsUploadDialogOpen(true)
+  }
+
+  const handleFileUpload = (fileData: {
+    name: string
+    description: string
+    content: string
+    type: "html" | "pdf" | "text"
+    directory: string
+  }) => {
+    const newNote: Note = {
+      id: Date.now().toString(),
+      title: fileData.name,
+      content: fileData.content,
+      tags: fileData.description
+        .toLowerCase()
+        .split(" ")
+        .filter((tag) => tag.length > 2), // Auto-generate tags from description
+      createdAt: new Date().toISOString().split("T")[0],
+      modifiedAt: new Date().toISOString().split("T")[0],
+      type: fileData.type,
+      size: `${Math.round(fileData.content.length / 1024)} KB`,
+      directory: fileData.directory,
+    }
+    setNotes([...notes, newNote])
+  }
+
+  const createDirectory = () => {
+    if (newDirectoryName.trim()) {
+      setNewDirectoryName("")
+      setShowNewDirectoryForm(false)
+    }
+  }
+
+  const deleteNote = (id: string) => {
+    setNotes(notes.filter((n) => n.id !== id))
+  }
+
   const downloadNote = (note: Note) => {
     const blob = new Blob([note.content], {
-      type: note.type === "html" ? "text/html" : "application/pdf",
+      type: note.type === "html" ? "text/html" : note.type === "pdf" ? "application/pdf" : "text/plain",
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -87,6 +190,11 @@ export default function NotesPage() {
     a.download = `${note.title}.${note.type}`
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  const getBreadcrumb = () => {
+    if (!currentDirectory) return []
+    return currentDirectory.split("/")
   }
 
   return (
@@ -105,6 +213,92 @@ export default function NotesPage() {
         </div>
         <p className="text-slate-600">Organized collection of project notes, research, and technical documentation</p>
       </div>
+
+      {/* Breadcrumb Navigation */}
+      {currentDirectory && (
+        <Card className="mb-4">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-2 text-sm">
+              <Button variant="ghost" size="sm" onClick={() => setCurrentDirectory("")} className="p-1 h-auto">
+                <Home className="h-4 w-4" />
+              </Button>
+              <ChevronRight className="h-4 w-4 text-slate-400" />
+              {getBreadcrumb().map((segment, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <span className="font-medium">{segment}</span>
+                  {index < getBreadcrumb().length - 1 && <ChevronRight className="h-4 w-4 text-slate-400" />}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Directory View */}
+      {!currentDirectory && (
+        <Card className="mb-6">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle className="flex items-center gap-2">
+                <Folder className="h-5 w-5" />
+                Note Categories
+              </CardTitle>
+              <Button size="sm" onClick={() => setShowNewDirectoryForm(!showNewDirectoryForm)}>
+                <FolderPlus className="h-4 w-4 mr-2" />
+                New Category
+              </Button>
+            </div>
+            <CardDescription>Organize your Bear notes by project type or category</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {showNewDirectoryForm && (
+              <div className="mb-4 p-4 border rounded-lg bg-slate-50">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Category name (e.g., Development, Research, Meetings)"
+                    value={newDirectoryName}
+                    onChange={(e) => setNewDirectoryName(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && createDirectory()}
+                  />
+                  <Button onClick={createDirectory} size="sm">
+                    Create
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setShowNewDirectoryForm(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {directories.map((dir) => (
+                <Card
+                  key={dir.path}
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setCurrentDirectory(dir.path)}
+                >
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-3">
+                      <Folder className="h-8 w-8 text-red-600" />
+                      <div>
+                        <h3 className="font-semibold">{dir.name}</h3>
+                        <p className="text-sm text-slate-600">{dir.fileCount} notes</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+
+              {directories.length === 0 && (
+                <div className="col-span-full text-center py-8 text-slate-500">
+                  <Folder className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <p>No categories yet. Create your first category to organize notes.</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Search and Filter */}
       <Card className="mb-6">
@@ -167,20 +361,23 @@ export default function NotesPage() {
         </CardContent>
       </Card>
 
-      {/* Upload Section */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Upload className="h-5 w-5" />
-            Add Bear Notes
-          </CardTitle>
-          <CardDescription>Upload project notes and technical documentation (HTML/PDF format)</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button className="w-full">
-            <Upload className="h-4 w-4 mr-2" />
-            Choose Files to Upload
+      {/* Upload Button */}
+      <Card className="mb-6 md:mb-8">
+        <CardContent className="pt-6 pb-6">
+          <Button onClick={handleUploadClick} className="w-full flex items-center justify-center gap-2 py-6" size="lg">
+            {isAuthenticated ? (
+              <>
+                <Upload className="h-6 w-6 mr-2" />
+                <span className="text-lg">Upload Bear Notes</span>
+              </>
+            ) : (
+              <>
+                <Lock className="h-6 w-6 mr-2" />
+                <span className="text-lg">Secure Upload - Authentication Required</span>
+              </>
+            )}
           </Button>
+          {isAuthenticated && <p className="text-center text-sm text-green-600 mt-2">✓ Upload access granted</p>}
         </CardContent>
       </Card>
 
@@ -205,6 +402,11 @@ export default function NotesPage() {
                     <Badge variant="outline" className="ml-2">
                       {note.type.toUpperCase()}
                     </Badge>
+                    {note.directory && (
+                      <Badge variant="secondary" className="ml-1">
+                        {note.directory}
+                      </Badge>
+                    )}
                   </CardTitle>
                   <CardDescription className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2">
                     <span className="flex items-center gap-1">
@@ -222,6 +424,10 @@ export default function NotesPage() {
                   <Button size="sm" variant="outline" onClick={() => downloadNote(note)}>
                     <Download className="h-4 w-4" />
                     <span className="hidden sm:inline ml-2">Download</span>
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => deleteNote(note.id)}>
+                    <Eye className="h-4 w-4" />
+                    <span className="hidden sm:inline ml-2">Remove</span>
                   </Button>
                 </div>
               </div>
@@ -258,23 +464,39 @@ export default function NotesPage() {
       {filteredNotes.length === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <div className="w-12 h-12 relative mx-auto mb-4">
-              <Image
-                src="/images/bear-logo.png"
-                alt="Bear Notes"
-                width={48}
-                height={48}
-                className="rounded-lg opacity-50"
-              />
-            </div>
+            <Folder className="h-12 w-12 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-slate-900 mb-2">No notes found</h3>
             <p className="text-slate-600">
               {searchTerm || selectedTag || filterType !== "all"
                 ? "Try adjusting your search or filter criteria"
-                : "Add your Bear notes to get started"}
+                : currentDirectory
+                  ? `No notes in the "${currentDirectory}" category yet`
+                  : "Add your first note to get started"}
             </p>
           </CardContent>
         </Card>
+      )}
+
+      {/* Password Protection Dialog */}
+      {isPasswordDialogOpen && (
+        <PasswordProtection
+          open={isPasswordDialogOpen}
+          onOpenChange={setIsPasswordDialogOpen}
+          onSuccess={handlePasswordSuccess}
+          title="Bear Notes Upload Access"
+          description="Enter the upload password to add notes to Davis's Bear Notes."
+        />
+      )}
+
+      {/* File Upload Dialog */}
+      {isUploadDialogOpen && (
+        <FileUploadDialog
+          open={isUploadDialogOpen}
+          onOpenChange={setIsUploadDialogOpen}
+          onFileUpload={handleFileUpload}
+          directories={directories}
+          currentDirectory={currentDirectory}
+        />
       )}
     </div>
   )

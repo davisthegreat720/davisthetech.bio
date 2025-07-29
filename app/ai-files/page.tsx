@@ -5,9 +5,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Upload, FileText, Download, Trash2, Eye, Search, Folder, FolderPlus, ChevronRight, Home } from "lucide-react"
-import { FileUploadDialog } from "@/components/file-upload-dialog"
+import {
+  Upload,
+  FileText,
+  Download,
+  Trash2,
+  Eye,
+  Search,
+  Folder,
+  FolderPlus,
+  ChevronRight,
+  Home,
+  Lock,
+} from "lucide-react"
 import Link from "next/link"
+import { FileUploadDialog, PasswordProtection } from "@/components/dynamic-imports"
 
 interface RobotFile {
   id: string
@@ -79,6 +91,16 @@ export default function RobotArchivePage() {
       size: "32 KB",
       directory: "Travel",
     },
+    {
+      id: "6",
+      name: "PB Banana Smoothie Recipes",
+      description: "Protein smoothie recipes for workout nutrition",
+      content: '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">...',
+      createdAt: "2024-06-13",
+      type: "html",
+      size: "18 KB",
+      directory: "Nutrition",
+    },
   ])
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -87,6 +109,8 @@ export default function RobotArchivePage() {
   const [showNewDirectoryForm, setShowNewDirectoryForm] = useState(false)
   const [newDirectoryName, setNewDirectoryName] = useState("")
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   // Get all unique directories
   const directories: Directory[] = Array.from(new Set(files.map((f) => f.directory)))
@@ -105,6 +129,19 @@ export default function RobotArchivePage() {
     const matchesDirectory = currentDirectory === "" || file.directory === currentDirectory
     return matchesSearch && matchesFilter && matchesDirectory
   })
+
+  const handleUploadClick = () => {
+    if (isAuthenticated) {
+      setIsUploadDialogOpen(true)
+    } else {
+      setIsPasswordDialogOpen(true)
+    }
+  }
+
+  const handlePasswordSuccess = () => {
+    setIsAuthenticated(true)
+    setIsUploadDialogOpen(true)
+  }
 
   const handleFileUpload = (fileData: {
     name: string
@@ -295,14 +332,20 @@ export default function RobotArchivePage() {
       {/* Upload Button */}
       <Card className="mb-6 md:mb-8">
         <CardContent className="pt-6 pb-6">
-          <Button
-            onClick={() => setIsUploadDialogOpen(true)}
-            className="w-full flex items-center justify-center gap-2 py-6"
-            size="lg"
-          >
-            <Upload className="h-6 w-6 mr-2" />
-            <span className="text-lg">Add Documents to Archive</span>
+          <Button onClick={handleUploadClick} className="w-full flex items-center justify-center gap-2 py-6" size="lg">
+            {isAuthenticated ? (
+              <>
+                <Upload className="h-6 w-6 mr-2" />
+                <span className="text-lg">Add Documents to Archive</span>
+              </>
+            ) : (
+              <>
+                <Lock className="h-6 w-6 mr-2" />
+                <span className="text-lg">Secure Upload - Authentication Required</span>
+              </>
+            )}
           </Button>
+          {isAuthenticated && <p className="text-center text-sm text-green-600 mt-2">✓ Upload access granted</p>}
         </CardContent>
       </Card>
 
@@ -372,14 +415,27 @@ export default function RobotArchivePage() {
         </Card>
       )}
 
+      {/* Password Protection Dialog */}
+      {isPasswordDialogOpen && (
+        <PasswordProtection
+          open={isPasswordDialogOpen}
+          onOpenChange={setIsPasswordDialogOpen}
+          onSuccess={handlePasswordSuccess}
+          title="Robot Archive Upload Access"
+          description="Enter the upload password to add documents to the Robot Archive."
+        />
+      )}
+
       {/* File Upload Dialog */}
-      <FileUploadDialog
-        open={isUploadDialogOpen}
-        onOpenChange={setIsUploadDialogOpen}
-        onFileUpload={handleFileUpload}
-        directories={directories}
-        currentDirectory={currentDirectory}
-      />
+      {isUploadDialogOpen && (
+        <FileUploadDialog
+          open={isUploadDialogOpen}
+          onOpenChange={setIsUploadDialogOpen}
+          onFileUpload={handleFileUpload}
+          directories={directories}
+          currentDirectory={currentDirectory}
+        />
+      )}
     </div>
   )
 }

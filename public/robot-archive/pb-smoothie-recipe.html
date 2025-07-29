@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PB Banana Smoothie Recipe Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .recipe-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+        }
+        
+        .heavy-lift::before { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+        .light-workout::before { background: linear-gradient(90deg, #feca57, #ff9ff3); }
+        .mid-day::before { background: linear-gradient(90deg, #48dbfb, #0abde3); }
+        
+        .recipe-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recipe-icon {
+            font-size: 1.8rem;
+        }
+        
+        .recipe-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .ingredients {
+            list-style: none;
+        }
+        
+        .ingredient {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .ingredient:last-child {
+            border-bottom: none;
+        }
+        
+        .ingredient-name {
+            color: #495057;
+            flex: 1;
+        }
+        
+        .ingredient-amount {
+            font-weight: bold;
+            color: #2c3e50;
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .volume-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .feature-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .caffeine { background: rgba(238, 90, 36, 0.1); color: #ee5a24; }
+        .protein { background: rgba(72, 219, 251, 0.1); color: #0abde3; }
+        .fiber { background: rgba(254, 202, 87, 0.1); color: #feca57; }
+        
+        @media (max-width: 768px) {
+            .recipe-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .recipe-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🥤 PB Banana Power Smoothies</h1>
+            <p>Fuel Your 1000lb Total Journey | 204→185lbs</p>
+        </div>
+        
+        <div class="recipe-grid">
+            <!-- Heavy Lift Morning -->
+            <div class="recipe-card heavy-lift">
+                <div class="recipe-title">
+                    <span class="recipe-icon">💪</span>
+                    Heavy Lift Morning
+                </div>
+                <div class="recipe-stats">
+                    <div class="stat">
+                        <div class="stat-value">550</div>
+                        <div class="stat-label">Calories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">45g</div>
+                        <div class="stat-label">Protein</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">60g</div>
+                        <div class="stat-label">Carbs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">12g</div>
+                        <div class="stat-label">Fat</div>
+                    </div>
+                </div>
+                <ul class="ingredients">
+                    <li class="ingredient">
+                        <span class="ingredient-name">Peanut Butter</span>
+                        <span class="ingredient-amount">15g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Frozen Bananas</span>
+                        <span class="ingredient-amount">120g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Protein Oats</span>
+                        <span class="ingredient-amount">25g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Levels Protein</span>
+                        <span class="ingredient-amount">1 scoop</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Oikos Triple Zero</span>
+                        <span class="ingredient-amount">100g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Chia Seeds</span>
+                        <span class="ingredient-amount">8g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Almond Milk</span>
+                        <span class="ingredient-amount">100g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">High Brew Coffee</span>
+                        <span class="ingredient-amount">100g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Coconut Water</span>
+                        <span class="ingredient-amount">50g</span>
+                    </li>
+                </ul>
+                <div class="volume-info">20-24oz | Perfect for PR days</div>
+                <div class="features">
+                    <span class="feature-tag caffeine">Caffeine</span>
+                    <span class="feature-tag protein">High Protein</span>
+                    <span class="feature-tag fiber">Fiber Rich</span>
+                </div>
+            </div>
+            
+            <!-- Light Workout Morning -->
+            <div class="recipe-card light-workout">
+                <div class="recipe-title">
+                    <span class="recipe-icon">🌅</span>
+                    Light Workout Morning
+                </div>
+                <div class="recipe-stats">
+                    <div class="stat">
+                        <div class="stat-value">415</div>
+                        <div class="stat-label">Calories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">41g</div>
+                        <div class="stat-label">Protein</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">35g</div>
+                        <div class="stat-label">Carbs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">10g</div>
+                        <div class="stat-label">Fat</div>
+                    </div>
+                </div>
+                <ul class="ingredients">
+                    <li class="ingredient">
+                        <span class="ingredient-name">Peanut Butter</span>
+                        <span class="ingredient-amount">14g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Frozen Bananas</span>
+                        <span class="ingredient-amount">100g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Levels Protein</span>
+                        <span class="ingredient-amount">1 scoop</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Oikos Triple Zero</span>
+                        <span class="ingredient-amount">110g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Chia Seeds</span>
+                        <span class="ingredient-amount">8g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Almond Milk</span>
+                        <span class="ingredient-amount">130g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">High Brew Coffee</span>
+                        <span class="ingredient-amount">110g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Coconut Water</span>
+                        <span class="ingredient-amount">80g</span>
+                    </li>
+                </ul>
+                <div class="volume-info">20-24oz | Clean caffeine boost</div>
+                <div class="features">
+                    <span class="feature-tag caffeine">Caffeine</span>
+                    <span class="feature-tag protein">Lean Protein</span>
+                    <span class="feature-tag">Lower Cal</span>
+                </div>
+            </div>
+            
+            <!-- Mid-Day -->
+            <div class="recipe-card mid-day">
+                <div class="recipe-title">
+                    <span class="recipe-icon">☀️</span>
+                    Mid-Day Fuel
+                </div>
+                <div class="recipe-stats">
+                    <div class="stat">
+                        <div class="stat-value">485</div>
+                        <div class="stat-label">Calories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">48g</div>
+                        <div class="stat-label">Protein</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">42g</div>
+                        <div class="stat-label">Carbs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">13g</div>
+                        <div class="stat-label">Fat</div>
+                    </div>
+                </div>
+                <ul class="ingredients">
+                    <li class="ingredient">
+                        <span class="ingredient-name">Peanut Butter</span>
+                        <span class="ingredient-amount">17g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Frozen Bananas</span>
+                        <span class="ingredient-amount">120g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Levels Protein</span>
+                        <span class="ingredient-amount">1 scoop</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Oikos Triple Zero</span>
+                        <span class="ingredient-amount">120g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Chia Seeds</span>
+                        <span class="ingredient-amount">10g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Almond Milk</span>
+                        <span class="ingredient-amount">120g</span>
+                    </li>
+                    <li class="ingredient">
+                        <span class="ingredient-name">Coconut Water</span>
+                        <span class="ingredient-amount">100g</span>
+                    </li>
+                </ul>
+                <div class="volume-info">20-24oz | No caffeine crash</div>
+                <div class="features">
+                    <span class="feature-tag">No Caffeine</span>
+                    <span class="feature-tag protein">Protein Packed</span>
+                    <span class="feature-tag fiber">Sustained Energy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

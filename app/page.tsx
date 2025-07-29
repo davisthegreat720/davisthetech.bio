@@ -1,141 +1,273 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Brain, User, Upload, FolderOpen, Code, FileText, Award } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+"use client"
 
-export default function HomePage() {
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Mail, Linkedin, ExternalLink, FileText, User, Briefcase, Award } from "lucide-react"
+import { Header } from "@/components/header"
+import { Navigation } from "@/components/navigation"
+
+export default function PortfolioPage() {
+  const [showResume, setShowResume] = useState(true)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 md:py-16">
-        <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">Davis the Tech's Workspace</h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto px-4">
-            Stay ready, so you don't have to get ready.
-          </p>
-        </div>
+      <Header />
+      <Navigation />
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-4">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Brain className="h-5 w-5 text-blue-600" />
-                Robot Archive
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        {showResume ? (
+          /* Resume Embed */
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Professional Resume
               </CardTitle>
-              <CardDescription className="text-sm">
-                Curated collection of AI-generated content and technical documentation
-              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Link href="/ai-files">
-                <Button className="w-full">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Browse Archive
-                </Button>
-              </Link>
+            <CardContent className="p-0">
+              <div className="w-full bg-white rounded-lg overflow-hidden shadow-inner">
+                <iframe
+                  src="https://flowcv.com/resume/q9of1o321lid"
+                  className="resume-iframe"
+                  title="Danielle Davis Resume"
+                  loading="lazy"
+                />
+              </div>
             </CardContent>
           </Card>
+        ) : (
+          /* About Section */
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* Professional Summary */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <User className="h-5 w-5" />
+                  Professional Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-700 leading-relaxed text-lg">
+                  IT leader with over 10 years of progressive experience in Identity & Access Management (IAM),
+                  endpoint/Mobile Device Management (MDM), process automation, and enterprise SaaS infrastructure.
+                  Proven ability to drive strategic transformation in remote-first, high-growth environments. Adept at
+                  aligning technology strategy with business goals to enhance security, compliance, and operational
+                  excellence.
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-4">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <div className="w-5 h-5 relative">
-                  <Image src="/images/bear-logo.png" alt="Bear Notes" width={20} height={20} className="rounded-sm" />
+            {/* Key Expertise */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="h-5 w-5" />
+                  Core Expertise
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">IAM & Automation</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        Okta
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Okta Workflows
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        SCIM
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        MFA
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Zero-Trust
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">Endpoint/MDM Management</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        JAMF
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Mosyle
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Zero-touch deployments
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">Cloud Infrastructure</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        Azure
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        GCP
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Google Cloud Platform
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">Scripting & Development</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        Python
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Bash
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Bash Scripting
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">ITSM & Collaboration</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        Jira
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Confluence
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Zoom
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Slack
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-slate-900">OS & Administration</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        macOS
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Windows
+                      </Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Google Workspace
+                      </Badge>
+                    </div>
+                  </div>
                 </div>
-                Davis's Bear Notes
-              </CardTitle>
-              <CardDescription className="text-sm">
-                Organized collection of project notes, research, and technical documentation
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/notes">
-                <Button className="w-full" variant="outline">
-                  <FolderOpen className="h-4 w-4 mr-2" />
-                  View Notes
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="hover:shadow-lg transition-shadow md:col-span-2 lg:col-span-1">
-            <CardHeader className="pb-4">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <User className="h-5 w-5 text-purple-600" />
-                Professional Portfolio
-              </CardTitle>
-              <CardDescription className="text-sm">Resume, projects, and IT engineering work showcase</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/portfolio">
-                <Button className="w-full" variant="outline">
-                  <Code className="h-4 w-4 mr-2" />
-                  View Portfolio
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
+            {/* Current Role Highlight */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Briefcase className="h-5 w-5" />
+                  Current Role
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-1">Lead IT Engineer</h3>
+                  <p className="text-blue-600 font-medium mb-2">Recharge Inc. | Remote | 09/2023 – present</p>
+                  <p className="text-slate-700 leading-relaxed">
+                    Lead and manage internal IT infrastructure, operations, and IAM in a 450+ user SaaS based
+                    environment. Serve as SME for Okta (SSO, MFA, SCIM, policies) and Okta Workflows automation. Key
+                    outcomes include streamlining IAM, service desk operations and managing hardware via automation and
+                    process standardization.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Professional Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card className="text-center">
-            <CardContent className="pt-6 pb-4">
-              <div className="text-2xl md:text-3xl font-bold text-blue-600">50+</div>
-              <p className="text-xs md:text-sm text-slate-600">Technical Documents</p>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6 pb-4">
-              <div className="text-2xl md:text-3xl font-bold text-green-600">200+</div>
-              <p className="text-xs md:text-sm text-slate-600">Project Notes</p>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6 pb-4">
-              <div className="text-2xl md:text-3xl font-bold text-purple-600">15+</div>
-              <p className="text-xs md:text-sm text-slate-600">Projects</p>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6 pb-4">
-              <div className="text-2xl md:text-3xl font-bold text-orange-600">5+</div>
-              <p className="text-xs md:text-sm text-slate-600">Years Experience</p>
-            </CardContent>
-          </Card>
-        </div>
+            {/* Certifications */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="h-5 w-5" />
+                  Professional Certifications
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                    <Award className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium">Okta Administrator</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                    <Award className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium">ITIL v3</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                    <Award className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium">JAMF 200</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                    <Award className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium">Apple ACMT</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </main>
 
-        {/* Professional Overview */}
-        <Card className="bg-slate-900 text-white">
-          <CardContent className="py-8 md:py-12 text-center">
-            <h2 className="text-xl md:text-2xl font-bold mb-4">Professional Development & Documentation Hub</h2>
-            <p className="text-slate-300 mb-6 max-w-2xl mx-auto px-4">
-              A comprehensive workspace showcasing technical expertise, project documentation, and professional growth
-              in IT engineering. Explore curated content, project archives, and professional achievements.
+      {/* Footer */}
+      <footer className="bg-white border-t mt-16">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <p className="text-slate-600 mb-4">
+              Ready to discuss how I can contribute to your organization's IT strategy and growth?
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/ai-files">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Browse Documents
-                </Button>
-              </Link>
-              <Link href="/portfolio">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto border-slate-600 text-slate-900 hover:bg-slate-100"
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button asChild variant="outline">
+                <a href="mailto:davis072087@gmail.com" className="flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  Email Me
+                </a>
+              </Button>
+              <Button asChild variant="outline">
+                <a
+                  href="https://www.linkedin.com/in/davisthetech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
                 >
-                  <Award className="h-4 w-4 mr-2" />
-                  View Portfolio
-                </Button>
-              </Link>
+                  <Linkedin className="h-4 w-4" />
+                  Connect on LinkedIn
+                </a>
+              </Button>
+              <Button asChild>
+                <a
+                  href="https://flowcv.com/resume/q9of1o321lid"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  View Full Resume
+                </a>
+              </Button>
             </div>
-          </CardContent>
-        </Card>
-      </section>
+            <p className="text-slate-500 text-sm mt-6">© 2024 Danielle Davis. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
