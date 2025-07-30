@@ -13,13 +13,6 @@ export default function ResumePage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
-              <span className="text-2xl">📄</span>
-              Professional Resume
-            </h2>
-          </div>
-
           <div className="w-full">
             <iframe
               src="https://flowcv.com/resume/q9of1o321lid"
