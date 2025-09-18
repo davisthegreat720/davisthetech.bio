@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ExternalLink } from "lucide-react"
+import Link from "next/link"
 
 export default function PortfolioPage() {
   const projects = [
@@ -50,6 +51,20 @@ export default function PortfolioPage() {
             A showcase of my IT leadership projects and technical implementations that have driven organizational
             success.
           </p>
+        </div>
+
+        {/* Portfolio Navigation */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-4">
+            <Button variant="default" className="font-mono">
+              IT Projects
+            </Button>
+            <Link href="/portfolio/v0-projects">
+              <Button variant="outline" className="font-mono bg-transparent">
+                v0 Projects
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
