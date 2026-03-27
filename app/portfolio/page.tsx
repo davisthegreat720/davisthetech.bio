@@ -5,11 +5,18 @@ import { Navigation } from "@/components/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, ChevronRight } from "lucide-react"
 import Link from "next/link"
 
 export default function PortfolioPage() {
   const projects = [
+    {
+      title: "Python30",
+      description: "A comprehensive 30-day Python curriculum designed specifically for IT professionals covering scripting, automation, APIs, and real-world integration.",
+      technologies: ["Python", "APIs", "Automation", "IT Scripting"],
+      category: "Training & Development",
+      link: "/portfolio/python30",
+    },
     {
       title: "Enterprise IAM Implementation",
       description:
@@ -68,28 +75,38 @@ export default function PortfolioPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex justify-between items-start mb-2">
-                  <Badge variant="secondary" className="font-mono text-xs">
-                    {project.category}
-                  </Badge>
-                </div>
-                <CardTitle className="font-mono text-lg">{project.title}</CardTitle>
-                <CardDescription className="font-mono text-sm">{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="outline" className="font-mono text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {projects.map((project, index) => {
+            const CardWrapper = project.link ? Link : "div"
+            const cardProps = project.link ? { href: project.link } : {}
+            
+            return (
+              <CardWrapper key={index} {...cardProps}>
+                <Card className={`hover:shadow-lg transition-shadow h-full ${project.link ? "cursor-pointer hover:border-primary/50" : ""}`}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start mb-2">
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        {project.category}
+                      </Badge>
+                      {project.link && (
+                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                      )}
+                    </div>
+                    <CardTitle className="font-mono text-lg">{project.title}</CardTitle>
+                    <CardDescription className="font-mono text-sm">{project.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.technologies.map((tech, techIndex) => (
+                        <Badge key={techIndex} variant="outline" className="font-mono text-xs">
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </CardWrapper>
+            )
+          })}
         </div>
 
         <div className="mt-12 text-center">
