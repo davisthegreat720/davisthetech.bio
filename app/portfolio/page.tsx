@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { Python30Course } from "@/components/python30-course"
 
 export default function PortfolioPage() {
   const projects = [
@@ -90,6 +91,17 @@ export default function PortfolioPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Python30 Course Section */}
+        <div className="mt-12">
+          <div className="mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 font-mono">Python30 - IT Fundamentals</h3>
+            <p className="text-gray-600 font-mono text-sm sm:text-base">
+              A comprehensive 30-day Python curriculum designed specifically for IT professionals.
+            </p>
+          </div>
+          <Python30Course />
         </div>
 
         <div className="mt-12 text-center">
