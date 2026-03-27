@@ -11,6 +11,13 @@ import Link from "next/link"
 export default function PortfolioPage() {
   const projects = [
     {
+      title: "Python30",
+      description: "A comprehensive 30-day Python curriculum designed specifically for IT professionals covering scripting, automation, APIs, and real-world integration.",
+      technologies: ["Python", "APIs", "Automation", "IT Scripting"],
+      category: "Training & Development",
+      link: "/portfolio/python30",
+    },
+    {
       title: "Enterprise IAM Implementation",
       description:
         "Led the implementation of Okta SSO for 450+ users, streamlining authentication and improving security posture.",
@@ -36,13 +43,6 @@ export default function PortfolioPage() {
       description: "Designed and implemented zero-trust security architecture for remote workforce of 350+ employees.",
       technologies: ["Zero Trust", "VPN", "MFA", "Endpoint Security"],
       category: "Security",
-    },
-    {
-      title: "Python30 - IT Fundamentals",
-      description: "A comprehensive 30-day Python curriculum designed specifically for IT professionals covering scripting, automation, APIs, and real-world integration.",
-      technologies: ["Python", "APIs", "Automation", "IT Scripting"],
-      category: "Training & Development",
-      link: "/portfolio/python30",
     },
   ]
 
