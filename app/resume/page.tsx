@@ -15,7 +15,7 @@ export default function ResumePage() {
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
           <div className="w-full">
             <iframe
-              src="https://flowcv.com/resume/q9of1o321lid"
+              src="https://flowcv.com/resume/742wl5baknuf"
               className="w-full h-[600px] sm:h-[900px] border-0 rounded-lg"
               title="Danielle Davis Resume"
               loading="lazy"
@@ -27,7 +27,7 @@ export default function ResumePage() {
               Having trouble viewing the resume? You can also view it directly on FlowCV.
             </p>
             <a
-              href="https://flowcv.com/resume/q9of1o321lid"
+              href="https://flowcv.com/resume/742wl5baknuf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-mono text-sm"
@@ -65,7 +65,7 @@ export default function ResumePage() {
               </Button>
               <Button asChild size="sm" className="w-full sm:w-auto">
                 <a
-                  href="https://flowcv.com/resume/q9of1o321lid"
+                  href="https://flowcv.com/resume/742wl5baknuf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 font-mono"

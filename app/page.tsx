@@ -95,7 +95,7 @@ export default function HomePage() {
               </Button>
               <Button asChild size="sm" className="w-full sm:w-auto">
                 <a
-                  href="https://flowcv.com/resume/q9of1o321lid"
+                  href="https://flowcv.com/resume/742wl5baknuf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 font-mono"
