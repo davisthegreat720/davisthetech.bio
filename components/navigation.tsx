@@ -29,17 +29,6 @@ export function Navigation() {
           >
             Resume
           </Link>
-          <Link
-            href="/portfolio"
-            className={cn(
-              "px-3 py-2 text-sm font-mono transition-colors hover:text-blue-600",
-              pathname === "/portfolio" || pathname === "/portfolio/v0-projects"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-700",
-            )}
-          >
-            Portfolio
-          </Link>
         </div>
       </div>
     </nav>
