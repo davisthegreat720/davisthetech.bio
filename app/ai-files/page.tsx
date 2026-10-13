@@ -267,7 +267,7 @@ export default function RobotArchivePage() {
                 >
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-3">
-                      <Folder className="h-8 w-8 text-blue-600" />
+                      <Folder className="h-8 w-8 text-secondary" />
                       <div>
                         <h3 className="font-semibold">{dir.name}</h3>
                         <p className="text-sm text-slate-600">{dir.fileCount} documents</p>

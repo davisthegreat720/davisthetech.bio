@@ -130,7 +130,7 @@ export function FileUploadDialog({
             <div className="border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <File className="h-8 w-8 text-blue-600" />
+                  <File className="h-8 w-8 text-secondary" />
                   <div>
                     <p className="font-medium">{uploadedFile.name}</p>
                     <p className="text-sm text-slate-500">{(uploadedFile.size / 1024).toFixed(1)} KB</p>

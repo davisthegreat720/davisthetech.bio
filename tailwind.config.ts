@@ -20,7 +20,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Roboto", "sans-serif"],
+        sans: ["var(--font-nb-sans)", "Inter", "sans-serif"],
+        mono: ["var(--font-nb-mono)", "JetBrains Mono", "monospace"],
         "nb-sans": ["var(--font-nb-sans)", "Inter", "sans-serif"],
         "nb-mono": ["var(--font-nb-mono)", "JetBrains Mono", "monospace"],
       },
