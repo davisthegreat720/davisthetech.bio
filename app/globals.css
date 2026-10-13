@@ -149,3 +149,54 @@
     height: 900px;
   }
 }
+
+/* ------------------------------------------------------------------
+   Neobrutalism scope (Portfolio tab only)
+   Tokens: primary #FDC800, secondary #432DD7, surface #FBFBF9, text #1C293C
+   ------------------------------------------------------------------ */
+.nb-scope {
+  font-family: var(--font-nb-sans), Inter, sans-serif;
+  color: #1C293C;
+}
+.nb-scope .font-mono,
+.nb-scope code {
+  font-family: var(--font-nb-mono), "JetBrains Mono", monospace;
+}
+.nb-scope :focus-visible {
+  outline: 3px solid #432DD7;
+  outline-offset: 2px;
+}
+.nb-prose {
+  overflow-wrap: break-word;
+}
+.nb-prose a {
+  color: #432DD7;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+.nb-prose a:hover {
+  background: #FDC800;
+  color: #1C293C;
+}
+.nb-prose b {
+  font-weight: 700;
+}
+.nb-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  border: 2px solid #1C293C;
+}
+.nb-prose th {
+  background: #FDC800;
+  font-weight: 700;
+  text-align: left;
+  padding: 8px;
+  border: 2px solid #1C293C;
+}
+.nb-prose td {
+  padding: 8px;
+  border: 2px solid #1C293C;
+  vertical-align: top;
+}
