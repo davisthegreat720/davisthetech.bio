@@ -1,110 +1,98 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
-import { Mail, Linkedin, Github, ExternalLink } from "lucide-react"
-import { Navigation } from "@/components/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
+import { Navigation } from "@/components/navigation"
+import { Button } from "@/components/ui/button"
+import { getResume } from "@/lib/resume"
 
 export default function HomePage() {
+  const { name, contact, skills } = getResume()
+  const focusAreas = skills.slice(0, 4).map((s) => s.label)
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 font-mono">
+    <div className="flex min-h-screen flex-col">
       <Navigation />
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-4 sm:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-200px)]">
-          {/* Left Side - Blue Section */}
-          <div className="border-2 border-blue-600 text-black flex items-center justify-center p-8 lg:p-16 rounded-l-lg">
-            <div className="text-center lg:text-left max-w-md">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 font-mono">Danielle Davis</h1>
-              <h2 className="text-lg sm:text-xl lg:text-2xl mb-8 font-mono text-black">IT Leader | Tech Enthusiast     </h2>
+      <main className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:py-16">
+        <section aria-labelledby="hero-heading" className="flex flex-col gap-6">
+          <p className="w-fit rounded-md border-2 border-foreground bg-secondary px-2 py-1 font-mono text-xs font-bold uppercase tracking-widest text-secondary-foreground">
+            Staff IT Engineering
+          </p>
+          <h1 id="hero-heading" className="text-balance text-5xl font-black leading-none tracking-tight sm:text-6xl lg:text-7xl">
+            {name}
+          </h1>
+          {contact.title && (
+            <p className="text-pretty text-lg font-semibold leading-relaxed sm:text-xl">{contact.title}</p>
+          )}
 
-              {/* Divider */}
-              <div className="w-16 h-0.5 bg-black mb-8 mx-auto lg:mx-0"></div>
+          <ul className="flex flex-wrap gap-2" aria-label="Focus areas">
+            {focusAreas.map((area) => (
+              <li key={area} className="rounded-md border-2 border-foreground bg-card px-2.5 py-1 text-sm font-semibold">
+                {area}
+              </li>
+            ))}
+          </ul>
 
-              {/* Social Icons */}
-              <div className="flex justify-center lg:justify-start gap-6 mb-8">
-                <a
-                  href="https://www.linkedin.com/in/davisthetech/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-black hover:text-gray-600 transition-colors"
-                  aria-label="LinkedIn Profile"
-                >
-                  <Linkedin className="h-8 w-8" />
-                </a>
-                <a
-                  href="https://github.com/davisthegreat720"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-black hover:text-gray-600 transition-colors"
-                  aria-label="GitHub Profile"
-                >
-                  <Github className="h-8 w-8" />
-                </a>
-                <a
-                  href="mailto:davis072087@gmail.com"
-                  className="text-black hover:text-gray-600 transition-colors"
-                  aria-label="Email"
-                >
-                  <Mail className="h-8 w-8" />
-                </a>
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link href="/resume">
+                View resume <ArrowUpRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/portfolio">
+                See the work <ArrowUpRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </Button>
           </div>
 
-          {/* Right Side - Headshot Section */}
-          <div className="bg-white flex items-center justify-center p-8 lg:p-16 rounded-r-lg">
-            <div className="w-full max-w-md aspect-square relative rounded-lg shadow-2xl overflow-hidden">
-              <Image
-                src="/images/headshot.jpg"
-                alt="Danielle Davis - Professional headshot"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+          <div className="flex gap-3">
+            {contact.linkedin && (
+              <Button asChild size="icon" variant="outline">
+                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </Button>
+            )}
+            {contact.github && (
+              <Button asChild size="icon" variant="outline">
+                <a href={contact.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+                  <Github className="h-5 w-5" />
+                </a>
+              </Button>
+            )}
+            {contact.email && (
+              <Button asChild size="icon" variant="outline">
+                <a href={`mailto:${contact.email}`} aria-label="Email">
+                  <Mail className="h-5 w-5" />
+                </a>
+              </Button>
+            )}
+          </div>
+        </section>
+
+        <div className="relative mx-auto w-full max-w-md">
+          <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rounded-md border-2 border-foreground bg-primary" />
+          <div className="relative aspect-square overflow-hidden rounded-md border-2 border-foreground bg-card">
+            <Image
+              src="/images/headshot.jpg"
+              alt={`${name} — professional headshot`}
+              fill
+              sizes="(min-width: 1024px) 28rem, 90vw"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t mt-8 sm:mt-16">
-        <div className="container mx-auto px-4 py-6 sm:py-8">
-          <div className="text-center">
-            <p className="text-slate-600 mb-4 font-mono text-sm sm:text-base">
-              Ready to discuss how I can contribute to your organization's IT strategy and growth?
-            </p>
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
-              <Button asChild variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
-                <a href="mailto:davis072087@gmail.com" className="flex items-center justify-center gap-2 font-mono">
-                  <Mail className="h-4 w-4" />
-                  Email Me
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
-                <a
-                  href="https://www.linkedin.com/in/davisthetech/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 font-mono"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  Connect on LinkedIn
-                </a>
-              </Button>
-              <Button asChild size="sm" className="w-full sm:w-auto">
-                <Link href="/resume" className="flex items-center justify-center gap-2 font-mono">
-                  <ExternalLink className="h-4 w-4" />
-                  View Full Resume
-                </Link>
-              </Button>
-            </div>
-            <p className="text-slate-500 text-xs sm:text-sm mt-4 sm:mt-6 font-mono">
-              © 2024 Danielle Davis. All rights reserved.
-            </p>
-          </div>
+      <footer className="border-t-2 border-foreground bg-card">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-4 py-5 text-sm sm:flex-row sm:items-center sm:px-6">
+          <p className="font-semibold">{contact.location}</p>
+          <p className="text-muted-foreground">
+            {"© "}
+            {new Date().getFullYear()} {name}
+          </p>
         </div>
       </footer>
     </div>
