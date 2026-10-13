@@ -13,7 +13,7 @@
 
 # Danielle Davis
 
-title: Staff IT Engineering Leader | Identity, Endpoint, Automation & AI Platforms
+title: IT Engineering Leader | Identity, Endpoint, Automation & AI Platforms
 email: davis072087@gmail.com
 location: Dallas, TX
 linkedin: https://www.linkedin.com/in/davisthetech/

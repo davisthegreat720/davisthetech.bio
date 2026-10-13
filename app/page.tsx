@@ -15,9 +15,6 @@ export default function HomePage() {
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:py-16">
         <section aria-labelledby="hero-heading" className="flex flex-col gap-6">
-          <p className="w-fit rounded-md border-2 border-foreground bg-secondary px-2 py-1 font-mono text-xs font-bold uppercase tracking-widest text-secondary-foreground">
-            Staff IT Engineering
-          </p>
           <h1 id="hero-heading" className="text-balance text-5xl font-black leading-none tracking-tight sm:text-6xl lg:text-7xl">
             {name}
           </h1>
