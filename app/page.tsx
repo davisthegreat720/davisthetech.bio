@@ -85,7 +85,6 @@ export default function HomePage() {
 
       <footer className="border-t-2 border-foreground bg-card">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-4 py-5 text-sm sm:flex-row sm:items-center sm:px-6">
-          <p className="font-semibold">{contact.location}</p>
           <p className="text-muted-foreground">
             {"© "}
             {new Date().getFullYear()} {name}
