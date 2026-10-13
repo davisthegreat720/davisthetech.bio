@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Mail, Linkedin, Github, ExternalLink } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function HomePage() {
   return (
@@ -94,15 +95,10 @@ export default function HomePage() {
                 </a>
               </Button>
               <Button asChild size="sm" className="w-full sm:w-auto">
-                <a
-                  href="https://flowcv.com/resume/742wl5baknuf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 font-mono"
-                >
+                <Link href="/resume" className="flex items-center justify-center gap-2 font-mono">
                   <ExternalLink className="h-4 w-4" />
                   View Full Resume
-                </a>
+                </Link>
               </Button>
             </div>
             <p className="text-slate-500 text-xs sm:text-sm mt-4 sm:mt-6 font-mono">
