@@ -1,0 +1,590 @@
+[
+ {
+  "id": "slide-1",
+  "title": "Recommendation and Rollout",
+  "hero": "I recommend Installomator as Hillman Inc’s package-free application update mechanism for its secure and dynamic update process, with controlled testing and deployment through Jamf Pro.",
+  "blocks": [
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Updater and authenticity",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>Updater.</b> This design uses <b>Installomator</b>, an open-source tool hosted on GitHub (https://github.com/Installomator/Installomator/releases) [3]. Before trusting it in production, I looked at the security mechanism it uses: Installomator uses macOS built-in verification for downloads, and all apps have to be signed and notarized by a valid Apple Developer ID or they will fail [1]."
+       },
+       {
+        "type": "p",
+        "html": "<b>How authenticity is verified.</b> All Installomator downloads and installations have to be signed and notarized by a valid Apple Developer ID. Signature and notarization verify the origin and that the archive has not been tampered with in transfer. The script compares the developer team ID (the ten-digit code associated with the Apple Developer account) with an expected team ID. Software signed with a different, presumably malicious, Apple ID will not be installed [1]."
+       }
+      ]
+     },
+     {
+      "title": "How each application is obtained",
+      "body": [
+       {
+        "type": "table",
+        "html": "<tr><th>Application</th><th>Installomator Label</th><th>Vendor Source</th></tr>\n<tr><td>Google Chrome</td><td>googlechromepkg</td><td>Google official Chrome macOS release</td></tr>\n<tr><td>ChatGPT</td><td>chatgpt</td><td>OpenAI official ChatGPT macOS release</td></tr>\n<tr><td>Codex</td><td>codex</td><td>OpenAI official Codex macOS release</td></tr>\n<tr><td>Slack</td><td>slack</td><td>Slack official macOS release</td></tr>\n<tr><td>Wispr Flow</td><td>wisprflow</td><td>Wispr Flow official macOS release</td></tr>"
+       }
+      ]
+     },
+     {
+      "title": "Fallback when the updater does not support an app",
+      "body": [
+       {
+        "type": "p",
+        "html": "Installomator supports Wispr Flow as of a recent update. If an application is not supported by Installomator, Homebrew is the documented package-free fallback rather than a pre-created Jamf object in this worksheet. IT would manage the Homebrew workflow through an approved script policy and would maintain application versioning and the approved version used for Jamf reporting manually."
+       }
+      ]
+     },
+     {
+      "title": "Alternative considered: Homebrew",
+      "body": [
+       {
+        "type": "p",
+        "html": "I considered Homebrew initially as a package-free alternative because it is a command-line utility with a large supported application library. I rejected it because Installomator has better compatibility for enterprise purposes. It is designed for upgrades and has a more straightforward testing path for this use case. Homebrew could be scalable, but it adds complexity."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     2.15,
+     1.3,
+     1.05,
+     1.0
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Rollout and Support Plan",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Pre-deployment Verification",
+      "body": [
+       {
+        "type": "p",
+        "html": "Before pilot deployment, each Installomator label would be run locally with DEBUG=2. This performs the pre-deployment security checks without installing the application, allowing IT to verify the vendor source, detected version, archive/installer handling, code-signing/notarization, and expected Team ID, and to test the Jamf wrapper script before the 10-Mac pilot."
+       }
+      ]
+     },
+     {
+      "title": "Pilot Go or No Go",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>Go:</b> 10/10 pilot Macs complete the intended update without unintended application installation, data loss, forced termination of active work, or security-validation failure. Any initial failure must have an identified root cause, documented remediation, and a successful retest before production."
+       },
+       {
+        "type": "p",
+        "html": "<span><b>No-go:</b></span> Any unresolved failure, incorrect scope, authenticity-validation failure, or destructive user-impact issue pauses rollout."
+       }
+      ]
+     },
+     {
+      "title": "Production Stages",
+      "body": [
+       {
+        "type": "p",
+        "html": "After a go decision is approved, a company communication would go out informing all employees that their applications will be updated on an ongoing basis and that they will be notified of the 5-day update timeline. Production computers would be scoped and monitored first. Once deemed successful, the executive rollout would begin, with a war room contact made available. Conference room updates would be scheduled with staff for manual deployment every Thursday at an agreed after-hours time. IT will connect to Conference Room devices via SSH and invoke sudo jamf policy -id &lt;POLICY_ID&gt; for the corresponding Update - [App] - Conference Room policy. Updates to Installomator and swiftDialog versions on Conference Room devices will also be handled manually."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     1.0,
+     1.15,
+     2.05
+    ]
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Executive and Conference Room",
+      "body": [
+       {
+        "type": "p",
+        "html": "Deferral timing is managed by the application update script. Standard application policies pass $8Deferral_profile:standard, and Executive policies pass $8Deferral_profile:executive. The script records when it first observes the update and calculates the appropriate Available, 48-hour, 24-hour, or Required stage based on elapsed time."
+       }
+      ]
+     },
+     {
+      "title": "7 Day Deadline Plan",
+      "body": [
+       {
+        "type": "p",
+        "html": "The deferral period for standard production devices is limited to 5 days, leaving a 2-day remediation buffer to reach at least 95% compliance within the 7-day requirement. Executive devices receive the additional 48-hour deferral, making their final required stage day 7."
+       }
+      ]
+     },
+     {
+      "title": "Rollback Steps",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>Pause and containment:</b> Pause and containment can be handled by removing scope from the affected application update policy. This prevents additional devices from running the policy and limits the impact of an identified failure."
+       },
+       {
+        "type": "p",
+        "html": "<b>Rollback:</b> An Installomator rollback can be performed by updating the approved version and SHA-256 in the deployment policy to the previously approved release. This will not roll back devices that have already received the newer Installomator version, but it prevents additional devices from receiving the impacted version. Application rollback would require uninstalling the impacted application and reinstalling the appropriate version."
+       },
+       {
+        "type": "p",
+        "html": "<b>Recovery:</b> Application recovery would require uninstalling and reinstalling the application. If the updater itself is impacted, Installomator can be run in DEBUG=2 to troubleshoot and validate the issue before remediation and production scope are restored."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     1.05,
+     0.85,
+     2.9
+    ]
+   }
+  ]
+ },
+ {
+  "id": "slide-2",
+  "title": "User Display Comms & Decision Notes",
+  "hero": null,
+  "blocks": [
+   {
+    "type": "heading",
+    "text": "User Display Comms",
+    "lead": "No message appears when an application is closed; the update runs silently. The messages below apply only to the open-application path."
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Update First Available",
+      "body": [
+       {
+        "type": "p",
+        "html": "<i>Hello! A [Application] app update is now available. Select <b>Update Now</b> to close [Application] and complete the update. Select <b>Defer</b> to delay the update for up to 5 days.</i>"
+       }
+      ]
+     },
+     {
+      "title": "Compliance Deadline Approaching",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>48 hours:</b> <i>Hello! An [Application] update is available and must be completed within 48 hours. Select <b>Update Now</b> to complete the update or <b>Defer</b> to complete it later.</i>"
+       },
+       {
+        "type": "p",
+        "html": "<b>24 hours:</b> <i>Hello! An [Application] update is available and must be completed within 24 hours. Please select <b>Update Now</b> to complete this update.</i>"
+       },
+       {
+        "type": "p",
+        "html": "<b>Required:</b> <i>Hello! [Application] requires an update. Please select <b>Update Now</b> to close [Application] and complete the update.</i>"
+       }
+      ]
+     },
+     {
+      "title": "Application Must Close",
+      "body": [
+       {
+        "type": "p",
+        "html": "<i>Hello! [Application] requires an update. [Application] must be closed to complete the update. Please select Update Now to close [Application] and complete the update.</i>"
+       }
+      ]
+     },
+     {
+      "title": "Update Completed",
+      "body": [
+       {
+        "type": "p",
+        "html": "<i>[Application] has completed updating. Displayed only for the interactive/open-application workflow. Closed applications update silently.</i>"
+       }
+      ]
+     },
+     {
+      "title": "Update Failed",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>Title:</b> [Application] Update Failed"
+       },
+       {
+        "type": "p",
+        "html": "<i>[Application] has failed to update. Error: [specific error]. Please reach out to Hillman IT in <b>#ask-hillman-IT</b> on Slack for assistance.</i>"
+       }
+      ]
+     }
+    ],
+    "flex": [
+     1.0,
+     1.7,
+     1.0,
+     1.0,
+     1.1
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Decision Notes",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Open-Application Behavior and Deferral Deadline",
+      "body": [
+       {
+        "type": "p",
+        "html": "I chose a 5-day deferral deadline to provide a 2-day buffer and increase the probability of reaching 95% compliance within the 7-day requirement. Open applications receive increased messaging before becoming required to reduce work interruption. I rejected a full 7-day deferral because it leaves no remediation buffer. The failure mode I wanted to avoid was devices remaining non-compliant at the end of the reporting window because users deferred too long or had applications open."
+       }
+      ]
+     },
+     {
+      "title": "Release Selection and Keeping Untested Releases Out of Production",
+      "body": [
+       {
+        "type": "p",
+        "html": "Jamf Patch Management identifies when an application is outdated, and Installomator is trusted to obtain and validate the latest vendor release. Updates are first validated against the pilot cohort before broader production rollout. An approved-version gate inside the updater was considered but not implemented to avoid adding unnecessary complexity to the workflow. The failure mode I wanted to avoid was an untested vendor release reaching broad production before the update path had been validated on the pilot Macs."
+       }
+      ]
+     },
+     {
+      "title": "Updater Maintenance and Replacing a Reviewed Version",
+      "body": [
+       {
+        "type": "p",
+        "html": "I chose to keep production on the reviewed Installomator release/stable version while limiting the main version to pilot devices. Once the main version is tested and approved, the production policy is updated with the approved version and SHA-256. I rejected automatically updating production to the latest Installomator version. The failure mode I wanted to avoid was an untested updater change reaching production and causing application update or validation failures across the fleet."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Assumptions",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": null,
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>1.</b> The approved Installomator beta (main) version is 11.0, and the approved production (release) version is 10.9. <b>|</b> <b>2.</b> Jamf Pro v11.32 is used for this case. <b>|</b> <b>3.</b> Installomator is deployed at /usr/local/Installomator/Installomator.sh. Standard production and Executive Macs use the approved release build (10.9); Patch Pilot - Managed Apps uses the approved main build (11.0); Conference Room Macs are assumed to already have the approved release build and use the manual repair policy (3.23) if needed [3]. <b>|</b> <b>4.</b> Homebrew has already been installed and is updated via a Jamf script policy that installs once and checks for updates (out of scope). <b>|</b> <b>5.</b> ChatGPT Classic is the preferred application (keeps Codex separate). <b>|</b> <b>6.</b> swiftDialog 3.1.0 or later is assumed to already be available at /usr/local/bin/dialog and is used only for end-user messaging. The existing deployment policy (3.5) is reused for managed production devices, while Conference Room Devices use the manual fallback policy (3.24) only if swiftDialog needs repair or redeployment. <b>|</b> <b>7.</b> Cohort device groups are created as Static Groups: Executive Devices, Conference Room Devices. <b>|</b> <b>8.</b> Patch Management software titles have been added and configured for Google Chrome, ChatGPT Classic, OpenAI ChatGPT Codex, and Slack (Computers &gt; Patch Management &gt; +) [4]. <b>|</b> <b>9.</b> Jamf objects are defined as Configuration Profiles, Extension Attributes, Mac Apps, Packages, Patch Policies, and Policies [5]. Static Groups, Smart Groups, and Scripts are assumed to be Jamf objects as well. <b>|</b> <b>10.</b> Based on the available Jamf Patch Management titles and OpenAI's current desktop-app transition, “ChatGPT” in the exercise refers to OpenAI ChatGPT Classic, while “Codex” refers to the newer ChatGPT/Codex desktop application. They are treated as separate installed applications for reporting, scoping, and remediation. <b>|</b> <b>11.</b> Patch Pilot - Managed Apps is a Smart group populated by the Department inventory attribute <b>|</b> <b>12.</b> Executive &amp; Conference Cohort Devices are a Static Group <b>|</b> <b>13.</b> Existing Google Chrome and Slack packages are associated with versions in their Patch Management software-title definitions and are used by the legacy Google Chrome and Slack Patch Policies [7][8]. <b>|</b> <b>14.</b> Computer Inventory Collection settings have been enabled"
+       }
+      ]
+     }
+    ],
+    "flex": [
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "slide-3",
+  "title": "Handoff & Reporting",
+  "hero": null,
+  "blocks": [
+   {
+    "type": "heading",
+    "text": "Installomator Maintenance",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Pinned",
+      "body": [
+       {
+        "type": "p",
+        "html": "Uses the Deploy - Installomator Release policy (3.1) with policy parameters specifying the approved version, approved SHA-256, and release channel. The downloaded script must match both the approved version and SHA-256 before replacing the installed copy. A change to the upstream release branch cannot install an unapproved updater version."
+       }
+      ]
+     },
+     {
+      "title": "Tested",
+      "body": [
+       {
+        "type": "p",
+        "html": "Deploy - Installomator - Main (3.2) puts the 10-device Patch Pilot - Managed Apps Smart Group on the approved main build while production stays on the reviewed release build. The pilot is excluded from the production app-update policies so the newer updater can be tested in isolation. After 3.2 runs, IT manually exercises the existing HillmanPackageFree_UpdatorFinal.sh wrapper (5.3) against the applications already installed on those pilot Macs, using the same app parameters production will use. A go decision means each pilot Mac completes all applicable installed-app updates without unintended installation, destructive user impact, or security-validation failure. Main is only promoted to production after that validation is complete."
+       }
+      ]
+     },
+     {
+      "title": "Versioned",
+      "body": [
+       {
+        "type": "p",
+        "html": "Jamf inventory determines update eligibility using Patch Management or Extension Attribute data. Once the policy runs, the update script reads the installed application's version before and after Installomator remediation and logs the result. Jamf may continue to report the previous version until inventory refreshes."
+       }
+      ]
+     },
+     {
+      "title": "Refreshed",
+      "body": [
+       {
+        "type": "p",
+        "html": "The Installomator Installed Version (1.1), Channel (1.2), and SHA256 (1.3) Extension Attributes report the installed updater state into Jamf inventory. Installomator - Outdated Release (2.2) identifies release-channel Macs below the approved 10.9 release. Update - Installomator - Release (3.15) runs ongoing against that group and uses the approved version, SHA-256, and release-channel parameters before replacing the installed updater. Patch Pilot - Managed Apps is excluded because those devices remain on main for testing. After inventory refresh, compliant Macs automatically leave the outdated group."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     341.0,
+     741.0,
+     318.0,
+     607.0
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Handoff",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Operational Documentation",
+      "body": [
+       {
+        "type": "p",
+        "html": "A Package-Free Application Management runbook should be documented during rollout and maintained post-rollout for Service Desk and IT Engineering."
+       },
+       {
+        "type": "p",
+        "html": "The runbook will document the Installomator and swiftDialog dependencies <b>|</b> how to verify approved Installomator versions and SHA-256 hashes <b>|</b> application labels <b>|</b> Jamf policy parameters <b>|</b> how to manage application reporting and maintain the Jamf Dashboard <b>|</b> expected logs <b>|</b> common failure conditions <b>|</b> troubleshooting procedures <b>|</b> rollback/recovery steps <b>|</b> the process for testing, approving, and promoting new Installomator versions."
+       }
+      ]
+     },
+     {
+      "title": "Service Desk: Inventory Refresh and Safe Retry",
+      "body": [
+       {
+        "type": "p",
+        "html": "Service Desk first runs sudo jamf recon to refresh inventory, then confirms the Mac is still in the applicable Update Eligible - [App] Smart Group and is not in the [App] - Absent exclusion group. If the application is still installed and eligible, Service Desk can safely retry the corresponding Update - [App] policy by policy ID. The updater script performs an installed-only check before remediation, so the retry does not install an absent application."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     493.0,
+     457.0
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Reporting",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "Latest Vendor Release and Approved Version",
+      "body": [
+       {
+        "type": "p",
+        "html": "The latest vendor release is visible in the app’s Jamf Patch Management title, or the Wispr Flow latest-version Extension Attribute. After the release passes the pilot, that same version becomes the approved production version. Production is therefore approved to remediate to the current vendor latest stable release rather than to a separately pinned application version."
+       }
+      ]
+     },
+     {
+      "title": "Compliant, Outdated, Unknown, Pending, or Failed",
+      "body": [
+       {
+        "type": "p",
+        "html": "Add the update policies to the Jamf Dashboard to monitor execution and failures. Add the per-app Current Smart Groups (2.4, 2.9, 2.13, 2.17, 2.25), Outdated groups (2.6, 2.11, 2.15, 2.19, 2.26), and Unknown groups (2.7, 2.36–2.39) to monitor version state after inventory."
+       }
+      ]
+     },
+     {
+      "title": "Version Handling",
+      "body": [
+       {
+        "type": "p",
+        "html": "The update script reads CFBundleShortVersionString before and after remediation. Missing version values fail safely. Installomator determines whether an update is required; if the installed version is unchanged after a successful Installomator run, the wrapper logs that result for review rather than automatically treating it as a failure. Version verification occurs against the live application on the Mac, while Jamf reporting depends on inventory, so stale inventory may temporarily show an already-remediated device as outdated until inventory refreshes."
+       }
+      ]
+     },
+     {
+      "title": "95% Compliance",
+      "body": [
+       {
+        "type": "p",
+        "html": "Use the Current, Outdated, Unknown, Installed, and Update Eligible Smart Groups on the Jamf Dashboard to validate the population. Policy Logs and computer history show remediation attempts and failures. If inventory is stale, run sudo jamf recon, confirm Smart Group membership refreshes, and safely retry the applicable Update - [App] policy only if the app is still installed and eligible."
+       }
+      ]
+     },
+     {
+      "title": "Legacy Chrome and Slack Patch Policies",
+      "body": [
+       {
+        "type": "p",
+        "html": "For the legacy Chrome and Slack workflows, first remove the associated package from the relevant Patch Management software-title definition (Items 6.1 and 6.2), then delete the old Patch Policies (Items 3.17 and 3.18). Jamf documents enable/disable for standard Policies [10], but the Patch Policy documentation does not document an equivalent disable control; the package-based Patch Policy workflow requires the package association [7][8]."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     373.0,
+     332.0,
+     560.0,
+     391.0,
+     441.0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "slide-5",
+  "title": "Troubleshooting and Scope Check",
+  "hero": null,
+  "blocks": [
+   {
+    "type": "heading",
+    "text": "Troubleshooting",
+    "lead": "First three pieces of evidence inspected, in order, before changing the configuration."
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": "#2: A Mac belongs to the production scope but never runs the update policy.",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>1.</b> Verify the Mac is a member of the applicable Update Eligible - [App] Smart Group and is not in Conference Room Devices, Patch Pilot - Managed Apps, Executive Devices, or the matching [App] - Absent exclusion."
+       },
+       {
+        "type": "p",
+        "html": "<b>2.</b> Verify the Mac has checked in and its inventory is current; run sudo jamf recon -verbose if the inventory may be stale."
+       },
+       {
+        "type": "p",
+        "html": "<b>3.</b> Review the Jamf Policy Log for the applicable Update - [App] policy. If scope is correct and the policy has not run, manually invoke it with sudo jamf policy -id &lt;POLICY_ID&gt;."
+       }
+      ]
+     },
+     {
+      "title": "#3: The updater reports success, but Jamf inventory still shows the older version.",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>1.</b> Run sudo jamf recon or sudo jamf recon -verbose to force a fresh inventory update."
+       },
+       {
+        "type": "p",
+        "html": "<b>2.</b> Verify the computer is still managed and that its Jamf computer record is receiving check-in and inventory updates."
+       },
+       {
+        "type": "p",
+        "html": "<b>3.</b> Review the update policy’s Jamf Policy Log to confirm the policy ran successfully and compare its timestamp and actions against the last inventory update."
+       }
+      ]
+     },
+     {
+      "title": "#1: One of the applications is unexpectedly installed on a Mac that did not previously have it.",
+      "body": [
+       {
+        "type": "p",
+        "html": "<b>1.</b> Review the Mac’s current and previous inventory to confirm whether the application was truly absent before the event and identify when it first appeared."
+       },
+       {
+        "type": "p",
+        "html": "<b>2.</b> Review the applicable Update - [App] policy scope and Policy Log to confirm whether the Mac was in the [App] - Absent exclusion group at the time and whether the new workflow actually ran."
+       },
+       {
+        "type": "p",
+        "html": "<b>3.</b> Review Jamf policy and installation history to identify the actual deployment path. The new Update - [App] policies exclude the matching [App] - Absent Smart Group, and HillmanPackageFree_UpdatorFinal.sh also exits when the target app is not installed, so evidence that this workflow installed the app would indicate a scope or guardrail failure."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     507.0,
+     393.12000000000006,
+     637.0500000000001
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Scope Check",
+    "lead": null
+   },
+   {
+    "type": "cards",
+    "cards": [
+     {
+      "title": null,
+      "body": [
+       {
+        "type": "table",
+        "html": "<tr><th>Application</th><th>Total Fleet Installed</th><th>Pilot Installed-Eligible</th><th>Executive Installed</th><th>Conference Room Installed</th><th>Standard Production Installed-Eligible</th></tr>\n<tr><td>Google Chrome</td><td>80</td><td>10</td><td>5</td><td>4</td><td>61</td></tr>\n<tr><td>ChatGPT</td><td>55</td><td>8</td><td>4</td><td>0</td><td>43</td></tr>\n<tr><td>Codex</td><td>30</td><td>6</td><td>3</td><td>0</td><td>21</td></tr>\n<tr><td>Slack</td><td>92</td><td>10</td><td>6</td><td>4</td><td>72</td></tr>\n<tr><td>Wispr Flow</td><td>35</td><td>6</td><td>3</td><td>0</td><td>26</td></tr>"
+       }
+      ]
+     },
+     {
+      "title": "Classification and Absent Apps",
+      "body": [
+       {
+        "type": "p",
+        "html": "Jamf classifies an installed Mac as Current, Outdated, or Unknown after inventory. Chrome, ChatGPT, Codex, and Slack use the corresponding Patch Reporting software title plus Application Version; Wispr Flow uses Application Version compared with the Wispr Flow - Latest Version Extension Attribute (1.4). All application update policies also exclude the matching [App] - Absent Smart Group, and the updater script verifies the application is installed before continuing with remediation."
+       }
+      ]
+     }
+    ],
+    "flex": [
+     2.0,
+     1.0
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "Sources"
+   },
+   {
+    "type": "sources",
+    "items": [
+     "<b>[1]</b> <a href=\"https://github.com/Installomator/Installomator/wiki/Goals\" rel=\"noopener noreferrer\" target=\"_blank\">https://github.com/Installomator/Installomator/wiki/Goals</a> (accessed 9/24/2026) - Installomator function",
+     "<b>[2]</b> <a href=\"https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app\" rel=\"noopener noreferrer\" target=\"_blank\">https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app</a> (accessed 9/24/2026) - identify how ChatGPT and Codex were integrated",
+     "<b>[3]</b> <a href=\"https://github.com/Installomator/Installomator\" rel=\"noopener noreferrer\" target=\"_blank\">https://github.com/Installomator/Installomator</a> (accessed 9/23/2026) - general branch info for Installomator",
+     "<b>[4]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-app-catalog/Patch_Management_Software_Titles\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-app-catalog/Patch_Management_Software_Titles</a> (accessed 9/24/2026) - info about patch management",
+     "<b>[5]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Jamf_Pro_Objects\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Jamf_Pro_Objects</a> (accessed 9/26/2026) - establish objects and assumptions",
+     "<b>[6]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.22.0/Policy_Management\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.22.0/Policy_Management</a> (accessed 9/27/2026) - policy configuration and management behavior",
+     "<b>[7]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Adding_a_Package_to_a_Patch_Management_Software_Title\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Adding_a_Package_to_a_Patch_Management_Software_Title</a> (accessed 9/27/2026) - patch policy package association",
+     "<b>[8]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Patch_Policy_Workflow\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Patch_Policy_Workflow</a> (accessed 9/27/2026) - confirms the package-based Patch Policy workflow and required package association.",
+     "<b>[9]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Patch_Policies\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.17.0/Patch_Policies</a> (accessed 9/27/2026) - Patch Policy behavior, eligibility, and deployment model.",
+     "<b>[10]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Policy_Payload_Reference\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Policy_Payload_Reference</a> (accessed 9/27/2026) - confirms enable/disable is a standard Policy setting; a comparable Patch Policy disable setting is not documented.",
+     "<b>[11]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.22.0/Manually_Running_a_Policy\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-11.22.0/Manually_Running_a_Policy</a> (accessed 9/27/2026) - manual execution of custom-trigger policies with the jamf binary.",
+     "<b>[12]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Viewing_and_Flushing_Logs_for_a_Policy\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Viewing_and_Flushing_Logs_for_a_Policy</a> (accessed 9/27/2026) - Jamf Policy Log evidence.",
+     "<b>[13]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Viewing_Logs_for_a_Patch_Policy\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Viewing_Logs_for_a_Patch_Policy</a> (accessed 9/27/2026) - Patch Policy Log evidence.",
+     "<b>[14]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Extension_Attributes\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Extension_Attributes</a> (accessed 9/27/2026) - Extension Attribute inventory behavior.",
+     "<b>[15]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Inventory_and_Criteria_Reference\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Inventory_and_Criteria_Reference</a> (accessed 9/27/2026) - inventory fields and Smart Group criteria.",
+     "<b>[16]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Creating_a_Smart_Group\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Creating_a_Smart_Group</a> (accessed 9/27/2026) - Smart Group criteria and dynamic membership.",
+     "<b>[17]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Reports\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Computer_Reports</a> (accessed 9/27/2026) - computer inventory/reporting support.",
+     "<b>[18]</b> <a href=\"https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Event_Logs\" rel=\"noopener noreferrer\" target=\"_blank\">https://learn.jamf.com/r/en-US/jamf-pro-documentation-current/Event_Logs</a> (accessed 9/27/2026) - Jamf event/log evidence used during support and troubleshooting.",
+     "<b>[19]</b> <a href=\"https://versionhistory.googleapis.com/v1/chrome/platforms/mac/channels/stable/versions/all/releases\" rel=\"noopener noreferrer\" target=\"_blank\">https://versionhistory.googleapis.com/v1/chrome/platforms/mac/channels/stable/versions/all/releases</a> (accessed 9/27/2026) - Google Chrome latest stable version source.",
+     "<b>[20]</b> <a href=\"https://persistent.oaistatic.com/sidekick/public/sparkle_public_appcast.xml\" rel=\"noopener noreferrer\" target=\"_blank\">https://persistent.oaistatic.com/sidekick/public/sparkle_public_appcast.xml</a> (accessed 9/27/2026) - OpenAI ChatGPT Classic latest stable version source.",
+     "<b>[21]</b> <a href=\"https://persistent.oaistatic.com/codex-app-prod/appcast.xml\" rel=\"noopener noreferrer\" target=\"_blank\">https://persistent.oaistatic.com/codex-app-prod/appcast.xml</a> (accessed 9/27/2026) - OpenAI ChatGPT Codex latest stable version source.",
+     "<b>[22]</b> <a href=\"https://slack.com/api/desktop.latestRelease?redirect=1&amp;variant=pkg&amp;arch=universal\" rel=\"noopener noreferrer\" target=\"_blank\">https://slack.com/api/desktop.latestRelease?redirect=1&amp;variant=pkg&amp;arch=universal</a> (accessed 9/27/2026) - Slack latest stable macOS version source.",
+     "<b>[23]</b> <a href=\"https://dl.wisprflow.ai/mac-apple/latest\" rel=\"noopener noreferrer\" target=\"_blank\">https://dl.wisprflow.ai/mac-apple/latest</a> (accessed 9/27/2026) - Wispr Flow latest stable macOS version source."
+    ]
+   }
+  ]
+ }
+]

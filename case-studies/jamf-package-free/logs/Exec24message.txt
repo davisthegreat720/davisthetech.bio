@@ -1,0 +1,11 @@
+[INFO] [Test - Google Chrome - Full Update Workflow] Starting Google Chrome update workflow.
+[INFO] [Test - Google Chrome - Full Update Workflow] Test stage: executive24
+[INFO] [Test - Google Chrome - Full Update Workflow] Google Chrome is installed.
+[INFO] [Test - Google Chrome - Full Update Workflow] Installed version: 153.0.8010.53
+[INFO] [Test - Google Chrome - Full Update Workflow] Installomator version: 10.9
+[INFO] [Test - Google Chrome - Full Update Workflow] swiftDialog version: 3.1.0.4994
+[INFO] [Test - Google Chrome - Full Update Workflow] Google Chrome is currently open.
+[INFO] [Test - Google Chrome - Full Update Workflow] Displaying executive24 notification.
+[INFO] [Test - Google Chrome - Full Update Workflow] User selected Defer.
+[INFO] [Test - Google Chrome - Full Update Workflow] Google Chrome update deferred.
+[SUCCESS] [Test - Google Chrome - Full Update Workflow] No application changes were made.

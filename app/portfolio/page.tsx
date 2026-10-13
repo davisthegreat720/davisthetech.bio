@@ -1,138 +1,53 @@
-"use client"
-
-import { Header } from "@/components/header"
 import { Navigation } from "@/components/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, ChevronRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
+const project = {
+  title: "Package-Free Patch Management in Jamf Pro",
+  description:
+    "A Jamf Pro design that keeps Google Chrome, ChatGPT, Codex, Slack, and Wispr Flow current on 100 Macs without managing installer packages. Includes the rollout plan, user messaging, reporting, a 73-row configuration worksheet, and the scripts.",
+  technologies: ["Jamf Pro", "Installomator", "swiftDialog", "zsh", "Smart Groups", "Extension Attributes"],
+  category: "Endpoint Management",
+  link: "/portfolio/jamf-package-free",
+}
+
 export default function PortfolioPage() {
-  const projects = [
-    {
-      title: "Python30",
-      description: "A comprehensive 30-day Python curriculum designed specifically for IT professionals covering scripting, automation, APIs, and real-world integration.",
-      technologies: ["Python", "APIs", "Automation", "IT Scripting"],
-      category: "Training & Development",
-      link: "/portfolio/python30",
-    },
-    {
-      title: "Enterprise IAM Implementation",
-      description:
-        "Led the implementation of Okta SSO for 450+ users, streamlining authentication and improving security posture.",
-      technologies: ["Okta", "SAML", "OAuth", "Active Directory"],
-      category: "Identity & Access Management",
-    },
-    {
-      title: "SaaS Infrastructure Automation",
-      description:
-        "Automated deployment and management of cloud infrastructure using Infrastructure as Code principles.",
-      technologies: ["Terraform", "AWS", "Docker", "Kubernetes"],
-      category: "Cloud Infrastructure",
-    },
-    {
-      title: "IT Service Desk Optimization",
-      description:
-        "Implemented ITSM solutions that reduced ticket resolution time by 40% and improved user satisfaction.",
-      technologies: ["ServiceNow", "Jira", "Slack", "PowerBI"],
-      category: "IT Operations",
-    },
-    {
-      title: "Zero Trust Security Framework",
-      description: "Designed and implemented zero-trust security architecture for remote workforce of 350+ employees.",
-      technologies: ["Zero Trust", "VPN", "MFA", "Endpoint Security"],
-      category: "Security",
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 font-mono">
+    <div className="min-h-screen bg-nb-surface">
       <Navigation />
-      <Header />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 font-mono">Portfolio</h2>
-          <p className="text-gray-600 font-mono text-sm sm:text-base">
-            A showcase of my IT leadership projects and technical implementations that have driven organizational
-            success.
+      <main className="mx-auto flex max-w-[1280px] flex-col gap-8 px-4 py-8 sm:px-6 lg:py-12">
+        <header className="flex flex-col gap-3">
+          <p className="font-mono text-nb-xs font-bold uppercase tracking-[0.12em]">
+            <span className="inline-block border-2 border-nb-text bg-nb-primary px-2 py-1">Portfolio</span>
           </p>
-        </div>
+          <h1 className="text-nb-2xl font-extrabold tracking-tight sm:text-[48px] sm:leading-[1.05]">Case studies</h1>
+        </header>
 
-        {/* Portfolio Navigation */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-4">
-            <Button variant="default" className="font-mono">
-              IT Projects
-            </Button>
-            <Link href="/portfolio/v0-projects">
-              <Button variant="outline" className="font-mono bg-transparent">
-                v0 Projects
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, index) => {
-            const CardWrapper = project.link ? Link : "div"
-            const cardProps = project.link ? { href: project.link } : {}
-            
-            return (
-              <CardWrapper key={index} {...cardProps}>
-                <Card className={`hover:shadow-lg transition-shadow h-full ${project.link ? "cursor-pointer hover:border-primary/50" : ""}`}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start mb-2">
-                      <Badge variant="secondary" className="font-mono text-xs">
-                        {project.category}
-                      </Badge>
-                      {project.link && (
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                      )}
-                    </div>
-                    <CardTitle className="font-mono text-lg">{project.title}</CardTitle>
-                    <CardDescription className="font-mono text-sm">{project.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} variant="outline" className="font-mono text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </CardWrapper>
-            )
-          })}
-        </div>
-
-        <div className="mt-12 text-center">
-          <h3 className="text-xl font-bold mb-4 font-mono">Interested in Learning More?</h3>
-          <p className="text-gray-600 mb-6 font-mono text-sm sm:text-base">
-            These projects represent just a portion of my experience in IT leadership and technical implementation.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="outline">
-              <a href="mailto:davis072087@gmail.com" className="font-mono">
-                Discuss a Project
-              </a>
-            </Button>
-            <Button asChild>
-              <a
-                href="https://www.linkedin.com/in/davisthetech/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Connect on LinkedIn
-              </a>
-            </Button>
-          </div>
-        </div>
+        <Link href={project.link} className="group block">
+          <article className="flex flex-col gap-4 border-[3px] border-nb-text bg-nb-primary p-5 shadow-nb-lg transition-transform group-hover:-translate-y-1">
+            <div className="flex items-start justify-between gap-3">
+              <span className="border-2 border-nb-text bg-white px-2 py-0.5 font-mono text-nb-xs font-semibold">
+                {project.category}
+              </span>
+              <span className="border-2 border-nb-text bg-nb-secondary px-2 py-0.5 font-mono text-nb-xs font-semibold text-white">
+                Case study
+              </span>
+            </div>
+            <h2 className="text-nb-xl font-extrabold leading-tight">{project.title}</h2>
+            <p className="text-nb-sm">{project.description}</p>
+            <ul className="flex flex-wrap gap-2" aria-label="Technologies">
+              {project.technologies.map((t) => (
+                <li key={t} className="border-2 border-nb-text bg-nb-surface px-2 py-0.5 font-mono text-nb-xs">
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <span className="inline-flex items-center gap-2 font-mono text-nb-sm font-bold group-hover:underline">
+              View project <ArrowRight className="h-4 w-4" aria-hidden />
+            </span>
+          </article>
+        </Link>
       </main>
     </div>
   )
