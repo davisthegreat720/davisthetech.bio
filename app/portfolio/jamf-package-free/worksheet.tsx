@@ -36,7 +36,7 @@ export function Worksheet({ headers, rows }: Props) {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setType(t)}
-                className={`border-2 border-nb-text px-3 py-1.5 font-mono text-nb-xs font-semibold transition-transform active:translate-y-px ${
+                className={`min-h-[44px] border-2 border-nb-text px-3 py-1.5 font-mono text-nb-xs font-semibold transition-transform active:translate-y-px ${
                   active ? "bg-nb-text text-white" : "bg-white text-nb-text shadow-nb-sm hover:bg-nb-primary"
                 }`}
               >
@@ -45,7 +45,7 @@ export function Worksheet({ headers, rows }: Props) {
             )
           })}
         </div>
-        <label className="flex w-full items-center gap-2 border-2 border-nb-text bg-white px-3 py-2 shadow-nb-sm focus-within:outline focus-within:outline-[3px] focus-within:outline-offset-2 focus-within:outline-nb-secondary lg:w-80">
+        <label className="flex min-h-[44px] w-full items-center gap-2 border-2 border-nb-text bg-white px-3 py-2 shadow-nb-sm focus-within:outline focus-within:outline-[3px] focus-within:outline-offset-2 focus-within:outline-nb-secondary lg:w-80">
           <Search className="h-4 w-4 shrink-0" aria-hidden />
           <span className="sr-only">Search worksheet</span>
           <input

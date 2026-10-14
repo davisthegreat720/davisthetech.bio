@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink, FileCode2, FileText, Table2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, ExternalLink, FileCode2, FileText, Table2 } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { NbJumpNav } from "@/components/nb-jump-nav"
+import { projects } from "@/lib/projects"
 import content from "./content.json"
 import worksheet from "./worksheet.json"
 import { Worksheet } from "./worksheet"
@@ -25,6 +27,9 @@ type Block =
 type Section = { id: string; title: string; hero: string | null; blocks: Block[] }
 
 const sections = content as Section[]
+
+const selfIndex = projects.findIndex((p) => p.id === "jamf-package-free")
+const next = projects[selfIndex + 1] ?? null
 
 const scripts = [
   {
@@ -96,7 +101,7 @@ function CardView({ card, weight }: { card: Card; weight: number }) {
 
 function SectionView({ s, index }: { s: Section; index: number }) {
   return (
-    <section id={s.id} className="scroll-mt-6 border-t-[3px] border-nb-text pt-8">
+    <section id={s.id} className="scroll-mt-28 border-t-[3px] border-nb-text pt-8">
       <div className="mb-6 flex items-baseline gap-3">
         <span className="font-mono text-nb-sm font-bold text-nb-secondary">0{index + 1}</span>
         <h2 className="text-nb-xl font-extrabold tracking-tight text-nb-text sm:text-nb-2xl">{s.title}</h2>
@@ -154,10 +159,10 @@ export default function JamfPackageFreePage() {
     <div className="min-h-screen bg-nb-surface">
       <Navigation />
 
-      <main className="mx-auto flex max-w-[1280px] flex-col gap-12 px-4 py-8 sm:px-6 lg:py-12">
+      <main className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-8 sm:px-6 lg:py-12">
         <Link
           href="/portfolio"
-          className="inline-flex w-fit items-center gap-2 border-2 border-nb-text bg-white px-3 py-2 text-nb-sm font-semibold shadow-nb-sm transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
+          className="inline-flex min-h-[44px] w-fit items-center gap-2 border-2 border-nb-text bg-white px-3 py-2 text-nb-sm font-semibold shadow-nb-sm transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden /> Portfolio
         </Link>
@@ -179,13 +184,13 @@ export default function JamfPackageFreePage() {
                 href={FOLDER}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border-2 border-nb-text bg-nb-primary px-4 py-2 text-nb-sm font-bold shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
+                className="inline-flex min-h-[48px] items-center gap-2 border-2 border-nb-text bg-nb-primary px-5 text-nb-sm font-bold shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
               >
                 <FileCode2 className="h-4 w-4" aria-hidden /> Scripts on GitHub
               </a>
               <a
                 href="#worksheet"
-                className="inline-flex items-center gap-2 border-2 border-nb-text bg-white px-4 py-2 text-nb-sm font-bold shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
+                className="inline-flex min-h-[48px] items-center gap-2 border-2 border-nb-text bg-white px-5 text-nb-sm font-bold shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
               >
                 <Table2 className="h-4 w-4" aria-hidden /> Configuration worksheet
               </a>
@@ -204,37 +209,22 @@ export default function JamfPackageFreePage() {
           </aside>
         </header>
 
-        {/* Jump links */}
-        <nav aria-label="Case study sections" className="flex flex-wrap gap-2">
-          {sections.map((s, i) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className="border-2 border-nb-text bg-white px-3 py-1.5 font-mono text-nb-xs font-semibold hover:bg-nb-primary"
-            >
-              0{i + 1} {s.title}
-            </a>
-          ))}
-          <a
-            href="#worksheet"
-            className="border-2 border-nb-text bg-white px-3 py-1.5 font-mono text-nb-xs font-semibold hover:bg-nb-primary"
-          >
-            0{sections.length + 1} Configuration Worksheet
-          </a>
-          <a
-            href="#scripts"
-            className="border-2 border-nb-text bg-white px-3 py-1.5 font-mono text-nb-xs font-semibold hover:bg-nb-primary"
-          >
-            0{sections.length + 2} Scripts
-          </a>
-        </nav>
+        {/* Sticky section nav (Jakob's Law: familiar tab bar; Fitts's Law: 44px targets) */}
+        <NbJumpNav
+          label="Case study sections"
+          items={[
+            ...sections.map((s, i) => ({ id: s.id, label: s.title, num: `0${i + 1}` })),
+            { id: "worksheet", label: "Configuration Worksheet", num: `0${sections.length + 1}` },
+            { id: "scripts", label: "Scripts", num: `0${sections.length + 2}` },
+          ]}
+        />
 
         {sections.map((s, i) => (
           <SectionView key={s.id} s={s} index={i} />
         ))}
 
         {/* Worksheet */}
-        <section id="worksheet" className="scroll-mt-6 border-t-[3px] border-nb-text pt-8">
+        <section id="worksheet" className="scroll-mt-28 border-t-[3px] border-nb-text pt-8">
           <div className="mb-6 flex items-baseline gap-3">
             <span className="font-mono text-nb-sm font-bold text-nb-secondary">0{sections.length + 1}</span>
             <h2 className="text-nb-xl font-extrabold tracking-tight sm:text-nb-2xl">Configuration Worksheet</h2>
@@ -254,7 +244,7 @@ export default function JamfPackageFreePage() {
         </section>
 
         {/* Scripts */}
-        <section id="scripts" className="scroll-mt-6 border-t-[3px] border-nb-text pt-8">
+        <section id="scripts" className="scroll-mt-28 border-t-[3px] border-nb-text pt-8">
           <div className="mb-6 flex items-baseline gap-3">
             <span className="font-mono text-nb-sm font-bold text-nb-secondary">0{sections.length + 2}</span>
             <h2 className="text-nb-xl font-extrabold tracking-tight sm:text-nb-2xl">Scripts</h2>
@@ -287,10 +277,42 @@ export default function JamfPackageFreePage() {
             ))}
           </div>
         </section>
+
+        {/* End on a clear next step (Peak-End Rule, Serial Position: recency) */}
+        {next && (
+          <section
+            aria-labelledby="next-project"
+            className="flex flex-col gap-4 border-[3px] border-nb-text bg-nb-secondary p-6 text-white shadow-nb-lg sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex flex-col gap-1">
+              <p className="font-mono text-nb-xs font-bold uppercase tracking-[0.12em]">Next project</p>
+              <h2 id="next-project" className="text-nb-xl font-extrabold">
+                {next.title}
+              </h2>
+              <p className="max-w-2xl text-nb-sm">{next.category}</p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/portfolio"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 border-2 border-nb-text bg-white px-5 text-nb-sm font-bold text-nb-text shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
+              >
+                <ArrowLeft className="h-4 w-4" aria-hidden /> All projects
+              </Link>
+              <a
+                href={next.external ? next.href : `/portfolio#${next.id}`}
+                {...(next.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 border-2 border-nb-text bg-nb-primary px-5 text-nb-sm font-bold text-nb-text shadow-nb transition-transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
+              >
+                {next.cta} {next.external ? <ExternalLink className="h-4 w-4" aria-hidden /> : <ArrowRight className="h-4 w-4" aria-hidden />}
+                {next.external && <span className="sr-only">(opens in a new tab)</span>}
+              </a>
+            </div>
+          </section>
+        )}
       </main>
 
       <footer className="border-t-[3px] border-nb-text bg-white">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-2 px-4 py-6 font-mono text-nb-xs sm:flex-row sm:justify-between sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 font-mono text-nb-xs sm:flex-row sm:justify-between sm:px-6">
           <span>Danielle Davis | davis072087@gmail.com</span>
           <a href={FOLDER} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
             Source files on GitHub
