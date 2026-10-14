@@ -1,0 +1,16 @@
+{
+  "repo": "davisthegreat720/henley-rag",
+  "generatedAt": "2026-10-14T01:55:02.819Z",
+  "commit": {
+    "sha": "d111935",
+    "message": "Build RAG infrastructure and source connector foundation",
+    "date": "2026-10-13T19:48:09-05:00",
+    "url": "https://github.com/davisthegreat720/henley-rag/commit/d111935"
+  },
+  "stats": {
+    "composeServices": 3,
+    "sourceConnectors": 1,
+    "apiEndpoints": 1,
+    "pythonFiles": 13
+  }
+}
