@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Danielle Davis — IT Ops & Engineering Leader",
+  title: "Danielle Davis | IT Ops & Engineering Leader",
   description:
     "Creator of  Effortless IT Experiences",
   generator: "v0.dev",
