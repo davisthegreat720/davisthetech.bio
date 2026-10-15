@@ -73,10 +73,10 @@ const projectList: Project[] = [
     id: "davisthetech-bio",
     title: "davisthetech.bio",
     description:
-      "This site. Built with v0, then maintained with Claude and deployed on Vercel. Claude handles code changes, security review, and dependency upgrades (Next.js 14 to 16, React 18 to 19). Changes reach main only through pull requests under a GitHub branch ruleset, and every pull request gets a Vercel preview build before merge.",
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Claude", "Vercel", "GitHub"],
+      "This site shows how I work with v0, Vercel, Git, and Claude. It is a collaboration between the robots & I that I use to build my skills in Next.js, TypeScript, React, Git, and security practices. I use Claude for design, applying UI and UX skills, and to learn code by troubleshooting this site and the other projects listed. v0 generates code changes, Vercel builds and hosts the site, and Git and GitHub handle version control for this site and the other projects listed.",
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Claude", "Vercel", "GitHub", "v0", "Git"],
     category: "Web / AI-assisted",
-    status: "in-progress",
+    status: "complete",
     stats: [
       { value: "16", label: "Next.js" },
       { value: "19", label: "React" },
