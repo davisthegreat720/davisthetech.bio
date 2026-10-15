@@ -197,7 +197,7 @@ export default function NotesPage() {
           <div className="w-6 h-6 relative">
             <Image src="/images/bear-logo.png" alt="Bear Notes" width={24} height={24} className="rounded-sm" />
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Davis's Bear Notes</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Davis&apos;s Bear Notes</h1>
         </div>
         <p className="text-slate-600">Organized collection of project notes, research, and technical documentation</p>
       </div>
@@ -431,7 +431,7 @@ export default function NotesPage() {
             {note.type === "pdf" && (
               <CardContent>
                 <div className="bg-slate-50 p-3 rounded text-center text-slate-600">
-                  PDF document - Click "View" to open or "Download" to save
+                  PDF document - Click &quot;View&quot; to open or &quot;Download&quot; to save
                 </div>
               </CardContent>
             )}
