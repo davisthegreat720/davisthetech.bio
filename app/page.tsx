@@ -4,6 +4,8 @@ import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { getResume } from "@/lib/resume"
+import { Testimonials } from "@/components/testimonials"
+import { getTestimonials } from "@/lib/testimonials"
 
 export default function HomePage() {
   const { name, contact, skills } = getResume()
@@ -82,6 +84,8 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      <Testimonials items={getTestimonials()} />
 
       <footer className="border-t-2 border-foreground bg-card">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-4 py-5 text-sm sm:flex-row sm:items-center sm:px-6">
