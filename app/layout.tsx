@@ -17,9 +17,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Danielle Davis — Staff IT Engineering Leader",
+  title: "Danielle Davis — IT Ops & Engineering Leader",
   description:
-    "Danielle Davis is a staff-level IT engineering leader with 13+ years across identity and access management, endpoint engineering, enterprise SaaS, automation, and AI platform administration.",
+    "Creator of  Effortless IT Experiences",
   generator: "v0.dev",
 }
 
