@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowUpRight, FileText, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { getResume, type Role } from "@/lib/resume"
 
@@ -146,6 +146,21 @@ export default function ResumePage() {
             ))}
           </ul>
         </section>
+
+        <aside
+          role="note"
+          aria-label="About this resume"
+          className="flex items-start gap-3 rounded-md border-2 border-foreground bg-muted p-4 shadow-nb-sm"
+        >
+          <span className="mt-0.5 shrink-0 rounded-md border-2 border-foreground bg-secondary p-1 text-secondary-foreground" aria-hidden>
+            <FileText className="h-4 w-4" />
+          </span>
+          <p className="text-pretty text-sm leading-relaxed">
+            <span className="mr-1.5 font-mono text-xs font-bold uppercase tracking-wider text-secondary">Core resume</span>
+            This is my main resume. The version I submit with an application may be tailored to the role, with different
+            emphasis or ordering. Every version is accurate to the same experience.
+          </p>
+        </aside>
 
         <footer className="flex flex-wrap items-center justify-between gap-4 border-t-2 border-foreground pt-6">
           <p className="font-semibold">Want the details behind the bullets?</p>

@@ -1,11 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowUpRight, CalendarDays, Github, Linkedin, Mail } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { getResume } from "@/lib/resume"
 import { Testimonials } from "@/components/testimonials"
 import { getTestimonials } from "@/lib/testimonials"
+
+const BOOKING_URL = "https://calendar.notion.so/meet/davisthegreat/rpu44yba"
 
 export default function HomePage() {
   const { name, contact, skills } = getResume()
@@ -42,6 +44,12 @@ export default function HomePage() {
               <Link href="/portfolio">
                 See the work <ArrowUpRight className="h-4 w-4" aria-hidden />
               </Link>
+            </Button>
+            <Button asChild size="lg" variant="secondary">
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <CalendarDays className="h-4 w-4" aria-hidden /> Book a call
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
             </Button>
           </div>
 
