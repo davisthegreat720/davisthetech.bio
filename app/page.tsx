@@ -47,7 +47,7 @@ export default function HomePage() {
             </Button>
             <Button asChild size="lg" variant="secondary">
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                <CalendarDays className="h-4 w-4" aria-hidden /> Book a call
+                <CalendarDays className="h-4 w-4" aria-hidden /> Let's Chat
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </Button>
