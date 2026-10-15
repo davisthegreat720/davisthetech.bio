@@ -16,12 +16,10 @@ import {
   Home,
   Folder,
   FolderPlus,
-  Lock,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { FileUploadDialog } from "@/components/file-upload-dialog"
-import { PasswordProtection } from "@/components/password-protection"
 
 interface Note {
   id: string
@@ -49,8 +47,6 @@ export default function NotesPage() {
   const [showNewDirectoryForm, setShowNewDirectoryForm] = useState(false)
   const [newDirectoryName, setNewDirectoryName] = useState("")
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
-  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const [notes, setNotes] = useState<Note[]>([
     {
@@ -134,15 +130,6 @@ export default function NotesPage() {
   })
 
   const handleUploadClick = () => {
-    if (isAuthenticated) {
-      setIsUploadDialogOpen(true)
-    } else {
-      setIsPasswordDialogOpen(true)
-    }
-  }
-
-  const handlePasswordSuccess = () => {
-    setIsAuthenticated(true)
     setIsUploadDialogOpen(true)
   }
 
@@ -366,19 +353,9 @@ export default function NotesPage() {
       <Card className="mb-6 md:mb-8">
         <CardContent className="pt-6 pb-6">
           <Button onClick={handleUploadClick} className="w-full flex items-center justify-center gap-2 py-6" size="lg">
-            {isAuthenticated ? (
-              <>
-                <Upload className="h-6 w-6 mr-2" />
-                <span className="text-lg">Upload Bear Notes</span>
-              </>
-            ) : (
-              <>
-                <Lock className="h-6 w-6 mr-2" />
-                <span className="text-lg">Secure Upload - Authentication Required</span>
-              </>
-            )}
+            <Upload className="h-6 w-6 mr-2" />
+            <span className="text-lg">Upload Bear Notes</span>
           </Button>
-          {isAuthenticated && <p className="text-center text-sm text-green-600 mt-2">✓ Upload access granted</p>}
         </CardContent>
       </Card>
 
@@ -478,14 +455,6 @@ export default function NotesPage() {
         </Card>
       )}
 
-      {/* Password Protection Dialog */}
-      <PasswordProtection
-        open={isPasswordDialogOpen}
-        onOpenChange={setIsPasswordDialogOpen}
-        onSuccess={handlePasswordSuccess}
-        title="Bear Notes Upload Access"
-        description="Enter the upload password to add notes to Davis's Bear Notes."
-      />
 
       {/* File Upload Dialog */}
       <FileUploadDialog
