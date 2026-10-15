@@ -16,11 +16,9 @@ import {
   FolderPlus,
   ChevronRight,
   Home,
-  Lock,
 } from "lucide-react"
 import Link from "next/link"
 import { FileUploadDialog } from "@/components/file-upload-dialog"
-import { PasswordProtection } from "@/components/password-protection"
 
 interface RobotFile {
   id: string
@@ -110,8 +108,6 @@ export default function RobotArchivePage() {
   const [showNewDirectoryForm, setShowNewDirectoryForm] = useState(false)
   const [newDirectoryName, setNewDirectoryName] = useState("")
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
-  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   // Get all unique directories
   const directories: Directory[] = Array.from(new Set(files.map((f) => f.directory)))
@@ -132,15 +128,6 @@ export default function RobotArchivePage() {
   })
 
   const handleUploadClick = () => {
-    if (isAuthenticated) {
-      setIsUploadDialogOpen(true)
-    } else {
-      setIsPasswordDialogOpen(true)
-    }
-  }
-
-  const handlePasswordSuccess = () => {
-    setIsAuthenticated(true)
     setIsUploadDialogOpen(true)
   }
 
@@ -334,19 +321,9 @@ export default function RobotArchivePage() {
       <Card className="mb-6 md:mb-8">
         <CardContent className="pt-6 pb-6">
           <Button onClick={handleUploadClick} className="w-full flex items-center justify-center gap-2 py-6" size="lg">
-            {isAuthenticated ? (
-              <>
-                <Upload className="h-6 w-6 mr-2" />
-                <span className="text-lg">Add Documents to Archive</span>
-              </>
-            ) : (
-              <>
-                <Lock className="h-6 w-6 mr-2" />
-                <span className="text-lg">Secure Upload - Authentication Required</span>
-              </>
-            )}
+            <Upload className="h-6 w-6 mr-2" />
+            <span className="text-lg">Add Documents to Archive</span>
           </Button>
-          {isAuthenticated && <p className="text-center text-sm text-green-600 mt-2">✓ Upload access granted</p>}
         </CardContent>
       </Card>
 
@@ -416,14 +393,6 @@ export default function RobotArchivePage() {
         </Card>
       )}
 
-      {/* Password Protection Dialog */}
-      <PasswordProtection
-        open={isPasswordDialogOpen}
-        onOpenChange={setIsPasswordDialogOpen}
-        onSuccess={handlePasswordSuccess}
-        title="Robot Archive Upload Access"
-        description="Enter the upload password to add documents to the Robot Archive."
-      />
 
       {/* File Upload Dialog */}
       <FileUploadDialog
