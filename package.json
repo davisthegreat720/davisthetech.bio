@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node scripts/sync-repo-data.mjs && next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint .",
     "start": "next start"
   },
   "dependencies": {
@@ -18,21 +18,21 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.454.0",
     "next": "^16.4.2",
-    "react": "^18.3.1",
-    "react-dom": "^18",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "^14.2.35",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5.9.0"
   },
   "allowScripts": {
     "fsevents@2.3.3": true,

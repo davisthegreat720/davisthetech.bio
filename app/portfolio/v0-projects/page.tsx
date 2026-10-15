@@ -114,7 +114,7 @@ export default function V0ProjectsPage() {
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4 font-mono">v0 Projects</h1>
           <p className="text-gray-600 font-mono text-sm sm:text-base max-w-3xl">
-            A collection of innovative projects built using v0's AI-powered development platform. These projects
+            A collection of innovative projects built using v0&apos;s AI-powered development platform. These projects
             showcase rapid prototyping capabilities, modern web development practices, and practical solutions for
             real-world challenges.
           </p>

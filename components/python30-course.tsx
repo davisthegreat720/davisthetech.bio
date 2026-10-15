@@ -475,15 +475,6 @@ function CodeBlock({ code, language = "python" }: { code: string; language?: str
   )
 }
 
-// Tip Box component
-function TipBox({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="bg-[#3b82f6]/5 border border-[#3b82f6]/20 rounded p-3 my-3">
-      <span className="font-mono text-[10px] text-[#3b82f6] tracking-[2px] block mb-1.5">TIP</span>
-      <p className="text-[13px] text-[#94a3b8] leading-relaxed">{children}</p>
-    </div>
-  )
-}
 
 // Challenge Box component
 function ChallengeBox({ children }: { children: React.ReactNode }) {
@@ -722,7 +713,7 @@ export function Python30Course() {
         {/* Header */}
         <div className="text-center mb-8">
           <span className="inline-block bg-[#00d4aa]/10 border border-[#00d4aa]/30 text-[#00d4aa] font-mono text-[11px] tracking-[3px] px-4 py-1.5 rounded-sm mb-5 uppercase">
-            // IT Professional Track
+            {"// IT Professional Track"}
           </span>
           <h2 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight mb-4">
             <span className="text-[#00d4aa]">Python</span>
@@ -738,7 +729,7 @@ export function Python30Course() {
         <div className="bg-[#111827] border border-[#1e2d47] rounded p-5 mb-8">
           <div className="flex justify-between items-center mb-3">
             <span className="font-mono text-[12px] text-[#64748b] tracking-wide">
-              // COURSE PROGRESS
+              {"// COURSE PROGRESS"}
             </span>
             <span className="font-mono text-[12px] text-[#00d4aa]">
               {completedCount} / {totalDays} days complete
