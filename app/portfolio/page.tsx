@@ -4,9 +4,12 @@ import { projects, projectNum, type Project, type Status } from "@/lib/projects"
 import { ArrowRight, ExternalLink, GitCommitHorizontal } from "lucide-react"
 import Link from "next/link"
 
+//manages status labels and swatches that display in the project cards. The swatches are used for the status dot and the background of the status label.
+
 const STATUS: Record<Status, { label: string; swatch: string }> = {
   complete: { label: "Complete", swatch: "bg-nb-success" },
   "in-progress": { label: "In progress", swatch: "bg-nb-warning" },
+  ongoing: { label: "Ongoing", swatch: "bg-nb-secondary" }
 }
 
 const ACCENT = {
