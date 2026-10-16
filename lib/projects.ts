@@ -91,7 +91,7 @@ const projectList: Project[] = [
 
 // Status order for display: in-progress first, then ongoing, then complete.
 // Array.prototype.sort is stable, so projects keep their order inside each group.
-const STATUS_ORDER: Record<Status, number> = { "in-progress": 0, "ongoing": 1, "complete": 2 }
+const STATUS_ORDER: Record<Status, number> = { "in-progress": 0, "complete": 1, "ongoing": 2 }
 
 export const projects: Project[] = [...projectList].sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status])
 
